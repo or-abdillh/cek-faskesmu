@@ -61,6 +61,22 @@
                 </section>
             </Container>
         </section>
+
+        <!-- Faskes Finder -->
+        <section class="bg-green-800">
+            <Container class="rounded-t-2xl -translate-y-5 bg-green-800 flex-col items-center text-center">
+                <!-- copywriter -->
+                <h1 class="text-gray-100 text-4xl font-semibold mb-4">Temukan Faskes Terdekat dengan Mudah</h1>
+                <p class="text-gray-200 mb-4">
+                    Dapatkan kemudahan dalam mencari faskes terdekat dengan fitur pencarian kami yang cepat dan
+                    efektif
+                </p>
+                <!-- searchbar -->
+                <section class="md:w-8/12 mx-auto">
+                    <Text></Text>
+                </section>
+            </Container>
+        </section>
     </BaseLayout>
 </template>
 
@@ -69,6 +85,7 @@
 import { Link } from '@inertiajs/vue3'
 import BaseLayout from '@/Layouts/BaseLayout.vue'
 import Container from '@/Components/base/Container.vue'
+import Text from '@/Components/form/Text.vue'
 
 const stats = [
     { title: 'Lokasi', count: '100' },
