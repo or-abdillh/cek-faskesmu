@@ -54,11 +54,11 @@ onMounted(() => {
         // Cek apakah posisi scroll melebihi tinggi navbar
         if (window.pageYOffset > navbar.value.offsetTop + 150) {
             // Jika melebihi, ubah warna navbar
-            navbar.value.classList.replace('bg-opacity-0', 'bg-gray-100')
+            navbar.value.classList.replace('bg-opacity-0', 'bg-gray-50')
             isOverScrolled.value = true
         } else {
             // Jika tidak, kembalikan warna navbar ke semula
-            navbar.value.classList.replace('bg-gray-100', 'bg-opacity-0')
+            navbar.value.classList.replace('bg-gray-50', 'bg-opacity-0')
             isOverScrolled.value = false
         }
     })
