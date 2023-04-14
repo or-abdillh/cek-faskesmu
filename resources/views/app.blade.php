@@ -33,6 +33,9 @@
         <!-- Font Awesome 6 -->
         <script src="https://kit.fontawesome.com/b026c11a83.js" crossorigin="anonymous"></script>
 
+        <!-- Animate On Scroll -->
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
         <!-- Scripts -->
         @routes
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])

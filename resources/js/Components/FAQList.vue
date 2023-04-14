@@ -5,7 +5,7 @@
             {{ props.faq?.question }}
         </button>
         <Transition enter-active-class="duration-300">
-            <section class="flex items-center justify-between" v-if="isShow">
+            <section class="flex items-center justify-between gap-4 md:gap-0" v-if="isShow">
                 <p class="inline-block w-[95%] bg-gray-100 border border-gray-200 p-6 rounded-lg">
                     {{ props.faq?.answer }}</p>
                 <button @click="isLike = !isLike"><i :class="isLike ? 'fa-solid' : 'fa-regular'"
