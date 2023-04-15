@@ -1,5 +1,6 @@
 <template>
-    <nav ref="navbar" class="fixed bg-gray-100 top-0 left-0 right-0 py-8 px-8 md:px-12 duration-300 z-40 bg-opacity-0">
+    <nav ref="navbar" class="fixed bg-gray-100 top-0 left-0 right-0 py-8 px-8 md:px-12 duration-300 z-40"
+        :class="{ 'bg-opacity-0': isHomeRoute }">
         <section class="w-full flex justify-between items-center">
             <!-- logo -->
             <Logo></Logo>
@@ -12,14 +13,15 @@
                     <button @click="showSideBar = !showSideBar" class="text-right md:hidden"><i
                             class="fa-solid fa-times"></i></button>
                     <template v-for="link in links" :key="link.path">
-                        <Link :href="link.path" :class="isOverScrolled ? 'md:text-gray-600' : 'md:text-gray-300'"
+                        <Link :href="link.path"
+                            :class="{ 'md:text-gray-600': !isHomeRoute, 'md:text-gray-600': isOverScrolled, 'md:text-gray-300': !isOverScrolled }"
                             class="uppercase text-xl font-bold inline-block text-gray-800">{{ link.title }}
                         </Link>
                     </template>
                 </section>
                 <!-- CTA -->
                 <section class="flex flex-col md:flex-row items-end md:items-center gap-4">
-                    <DarkModeToggler></DarkModeToggler>
+                    <ProfileButton></ProfileButton>
                     <Link class="bg-green-700 text-gray-50 px-6 py-3 rounded-full" href="/login">Masuk</Link>
                 </section>
             </section>
@@ -34,34 +36,39 @@
 
 <script setup>
 
-import { ref, onMounted } from 'vue'
-import { Link } from '@inertiajs/vue3'
+import { ref, onMounted, computed } from 'vue'
+import { Link, router } from '@inertiajs/vue3'
 import Logo from '@/Components/base/Logo.vue'
-import DarkModeToggler from '@/Components/base/DarkModeToggler.vue'
+import ProfileButton from '@/Components/base/ProfileButton.vue'
 
 const navbar = ref(null)
-const isOverScrolled = ref(false)
+const isHomeRoute = computed(() => router.page.url == '/')
+const isOverScrolled = ref(!isHomeRoute.value)
 const showSideBar = ref(false)
 
 const links = [
     { path: '/', title: 'Beranda' },
-    { path: '/', title: 'Fasilitas' },
+    { path: '/facility', title: 'Fasilitas' },
     { path: '/', title: 'Layanan' },
     { path: '/', title: 'Obat' },
     { path: '/', title: 'Tentang Kami' },
 ]
 
 onMounted(() => {
+
     window.addEventListener('scroll', () => {
-        // Cek apakah posisi scroll melebihi tinggi navbar
-        if (window.pageYOffset > navbar.value.offsetTop + 150) {
-            // Jika melebihi, ubah warna navbar
-            navbar.value.classList.replace('bg-opacity-0', 'bg-gray-50')
-            isOverScrolled.value = true
-        } else {
-            // Jika tidak, kembalikan warna navbar ke semula
-            navbar.value.classList.replace('bg-gray-50', 'bg-opacity-0')
-            isOverScrolled.value = false
+        if (!isHomeRoute.value) isOverScrolled.value = true
+        else {
+            // Cek apakah posisi scroll melebihi tinggi navbar
+            if (window.pageYOffset > navbar.value.offsetTop + 150) {
+                // Jika melebihi, ubah warna navbar
+                navbar.value.classList.replace('bg-opacity-0', 'bg-gray-50')
+                isOverScrolled.value = true
+            } else {
+                // Jika tidak, kembalikan warna navbar ke semula
+                navbar.value.classList.replace('bg-gray-50', 'bg-opacity-0')
+                isOverScrolled.value = false
+            }
         }
     })
 })

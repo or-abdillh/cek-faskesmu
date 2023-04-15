@@ -1,6 +1,6 @@
 <template>
     <NavigationBar></NavigationBar>
-    <main>
+    <main class="min-h-screen">
         <slot />
     </main>
     <GoToTopButton></GoToTopButton>

@@ -17,4 +17,9 @@ class HomeController extends Controller
     {
         return 'about page';
     }
+
+    public function facility()
+    {
+        return Inertia::render('Facility/Index');
+    }
 }
