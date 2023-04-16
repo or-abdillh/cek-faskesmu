@@ -174,7 +174,7 @@
 import { Link } from '@inertiajs/vue3'
 import { Splide, SplideSlide } from '@splidejs/vue-splide'
 import BaseLayout from '@/Layouts/BaseLayout.vue'
-import Container from '@/Components/base/Container.vue'
+import Container from '@/Components/base/OverlapContainer.vue.js'
 import Text from '@/Components/form/Text.vue'
 import FAQList from '@/Components/FAQList.vue'
 import '@splidejs/vue-splide/css'
