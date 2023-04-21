@@ -14,7 +14,15 @@ class FacilityController extends Controller
     public function detail($slug)
     {
         $facility = Facility::where('slug', $slug)->first();
+        $drugs = $facility->drugs;
+        $services = $facility->services;
+        $provider = $facility->user;
 
-        return Inertia::render('Facility/Detail', [ "facility" => $facility ]);
+        return Inertia::render('Facility/Detail', [ 
+            "facility" => $facility,
+            "services" => $services,
+            "drugs" => $drugs,
+            "provider" => $provider
+        ]);
     }
 }

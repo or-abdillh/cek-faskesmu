@@ -49,9 +49,9 @@
             <!-- wrapper -->
             <section class="w-full flex-col-reverse md:flex-row gap-6 md:gap-0 flex justify-between">
                 <!-- cards -->
-                <section class="md:w-7/12 flex flex-wrap gap-3 justify-between">
+                <section class="md:w-7/12 columns-2">
                     <template v-for="facility in filteredFacilities" :key="facility.id">
-                        <FacilityCard :is-login="props.isLogin" :facility="facility" class="md:w-[48%]"></FacilityCard>
+                        <FacilityCard :is-login="props.isLogin" :facility="facility" class="mb-4"></FacilityCard>
                     </template>
                 </section>
                 <!-- map -->

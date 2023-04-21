@@ -1,5 +1,5 @@
 <template>
-    <section class="bg-gray-50 p-4 rounded-xl border border-gray-100 duration-300">
+    <BaseLayoutCard>
         <!-- thumbnail -->
         <section
             class="w-full flex py-4 justify-end pr-4 rounded-xl shadow h-44 bg-top bg-cover bg-[url('https://cdn0-production-assets-kly.akamaized.net/medias/1411942/small-portrait/059095200_1479717151-24.jpg')]">
@@ -38,13 +38,14 @@
                 :href="props.facility?.URL">Kunjungi
             </Link>
         </section>
-    </section>
+    </BaseLayoutCard>
 </template>
 
 <script setup>
 
 import { ref } from 'vue'
 import { Link } from '@inertiajs/vue3'
+import BaseLayoutCard from '@/Components/card/BaseLayoutCard.vue'
 
 const isBookmarked = ref(false)
 const props = defineProps({

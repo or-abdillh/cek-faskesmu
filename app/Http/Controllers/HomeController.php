@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Drug;
 use App\Models\Facility;
 use App\Models\Location;
+use App\Models\Service;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,7 +15,15 @@ class HomeController extends Controller
     //
     public function index()
     {
-        return Inertia::render('Welcome');
+        $stats = [
+            [ "title" => "Lokasi", "count" => Location::all()->count() ],
+            [ "title" => "Pengguna", "count" => User::role('user')->count() ],
+            [ "title" => "Faskes Terdaftar", "count" => Facility::all()->count() ],
+            [ "title" => "Layanan Kesehatan", "count" => Service::all()->count() ],
+            [ "title" => "Obat Tersedia", "count" => Drug::all()->count() ]
+        ];
+
+        return Inertia::render('Welcome', [ "stats" => $stats ]);
     }
 
     public function about()

@@ -12,14 +12,24 @@ class Facility extends Model
 
     protected $guard = [];
 
-    public function provider()
+    public function user()
     {
-        return $this->belongsTo(Facility::class);
+        return $this->belongsTo(User::class);
     }
 
     public function location()
     {
         return $this->belongsTo(Location::class);
+    }
+
+    public function drugs()
+    {
+        return $this->hasMany(Drug::class);
+    }
+
+    public function services()
+    {
+        return $this->hasMany(Service::class);
     }
 
     public function generateSlug()
