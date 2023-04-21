@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('location_id');
             $table->enum('category', ['Rumah Sakit', 'Apotek', 'Klinik', 'Praktek']);
-            $table->text('desscription');
+            $table->text('description');
             $table->text('address');
             $table->string('phone_number');
             $table->string('website')->nullable();

@@ -23,5 +23,11 @@ Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/about', [HomeController::class, 'about'])->name('home.about');
 Route::get('/facility', [HomeController::class, 'facility'])->name('home.facility');
 
+// User
+Route::group([ 'middleware' => ['auth', 'role:user'] ], function() {
+
+    Route::get('/facility/{slug}', [UserFacilityController::class, 'detail'])->name('user.facility.detail');
+});
+
 
 require __DIR__.'/auth.php';

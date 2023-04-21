@@ -22,7 +22,9 @@
                 <!-- CTA -->
                 <section class="flex flex-col md:flex-row items-end md:items-center gap-4">
                     <ProfileButton></ProfileButton>
-                    <Link class="bg-green-700 text-gray-50 px-6 py-3 rounded-full" href="/login">Masuk</Link>
+                    <Link v-if="!$page.props.auth" class="bg-green-700 text-gray-50 px-6 py-3 rounded-full" href="/login">
+                    Masuk
+                    </Link>
                 </section>
             </section>
             <!-- Collapse button -->
