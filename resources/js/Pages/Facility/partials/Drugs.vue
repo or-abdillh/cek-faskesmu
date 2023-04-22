@@ -11,7 +11,7 @@
         <!-- cards -->
         <section class="w-full columns-2">
             <template v-for="drug in props?.drugs" :key="drug?.id">
-                <DrugCard :data="drug"></DrugCard>
+                <DrugCard class="break-inside-avoid" :data="drug"></DrugCard>
             </template>
         </section>
     </main>

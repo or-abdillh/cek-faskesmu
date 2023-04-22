@@ -76,7 +76,7 @@
 
 <script setup>
 
-import { ref } from 'vue'
+import { ref  } from 'vue'
 import { Link } from '@inertiajs/vue3'
 import BaseLayout from '@/Layouts/BaseLayout.vue'
 import BreadCrumb from '@/Components/base/BreadCrumb.vue'
@@ -100,6 +100,5 @@ const tabs = [
     { id: 2, name: 'Lokasi' },
     { id: 3, name: 'Ulasan' }
 ]
-
 
 </script>

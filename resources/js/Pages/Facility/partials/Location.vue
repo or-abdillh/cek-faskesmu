@@ -1,17 +1,24 @@
 <template>
     <main>
-        <section id="map" class="z-10 md:h-[80vh]"></section>
+        <section class="bg-gray-200 p-3 mb-4 text-gray-700">
+            <p>Lokasi anda saat ini berada pada <strong ref="locationEl">...</strong></p>
+            <small>Pastikan anda telah memberikan akses lokasi kepada website ini, Gunakan perangkat mobile untuk mendapatkan keakuratan lebih tinggi</small>
+        </section>
+
+        <section id="map" class="z-10 md:h-[60vh]"></section>
     </main>
 </template>
 
 <script setup>
 
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const props = defineProps({
     lat: Number,
     lng: Number
 })
+
+const locationEl = ref(null)
 
 onMounted(() => {
     // Leaflet Init
@@ -25,7 +32,48 @@ onMounted(() => {
     }).addTo(map)
 
     // add marker
-    L.marker([props.lat, props.lng]).addTo(map)
+    L.circleMarker([props.lat, props.lng], {
+        radius: 5,
+        color: 'red',
+        fillColor: 'red',
+        fillOpacity: 1
+    }).addTo(map)
+
+    
+    
+    // get current location
+    if ( 'geolocation' in navigator ) {
+        navigator.geolocation.getCurrentPosition(post => {
+            const lat = post.coords.latitude
+            const lng = post.coords.longitude
+
+            // Get current name location
+            const geocodeURL = 'https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=' + lat + '&lon=' + lng
+
+            fetch(geocodeURL)
+                .then(response => response.json())
+                .then(data => {
+                    const locationName = `${ data.address?.road }, ${ data.address?.village }, ${ data.address?.city }, ${ data.address?.state }`
+                    locationEl.value.innerText = locationName || 'Data lokasi tidak valid'
+                })
+
+            // Create Routing
+            const control = L.Routing.control({
+                waypoints: [
+                    L.latLng(lat, lng),
+                    L.latLng(props.lat, props.lng)
+                ],
+                routeWhileDragging: true,
+                router: L.Routing.osrmv1({
+                    serviceUrl: 'http://router.project-osrm.org/route/v1',
+                    profile: 'car',
+                    useHints: false
+                })
+            }).addTo(map)
+        }, 
+        err => console.error(err), { timeout: 15000 })
+    }
+    else locationEl.value.innerText = 'Akses Geolocation ditolak'
 })
 
 </script>
