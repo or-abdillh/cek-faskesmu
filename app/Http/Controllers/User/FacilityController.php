@@ -18,11 +18,20 @@ class FacilityController extends Controller
         $services = $facility->services;
         $provider = $facility->user;
 
+        $reviews = $facility->reviews->map(function($review) {
+            return [
+                'username' => $review->user->name,
+                'content' => $review->content,
+                'created_at' => $review->created_at->diffForHumans()
+            ];
+        });
+
         return Inertia::render('Facility/Detail', [ 
             "facility" => $facility,
             "services" => $services,
             "drugs" => $drugs,
-            "provider" => $provider
+            "provider" => $provider,
+            "reviews" => $reviews
         ]);
     }
 }

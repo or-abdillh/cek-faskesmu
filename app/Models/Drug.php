@@ -14,4 +14,9 @@ class Drug extends Model
     {
         return $this->belongsTo(Facility::class);
     }
+
+    public function reviews()
+    {
+        return $this->morphMany(Review::class, 'reviewable');
+    }
 }

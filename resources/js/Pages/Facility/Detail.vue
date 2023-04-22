@@ -46,7 +46,7 @@
                     <Location v-if="tabActive === 'Lokasi'" :lat="props.facility?.latitude"
                         :lng="props.facility?.longitude"></Location>
                     <!-- Ulasan -->
-                    <Review v-if="tabActive === 'Ulasan'"></Review>
+                    <Review :reviews="props?.reviews" v-if="tabActive === 'Ulasan'"></Review>
                 </section>
                 <!-- image -->
                 <section>
@@ -89,16 +89,17 @@ const props = defineProps({
     facility: Object,
     services: Array,
     drugs: Array,
-    provider: Object
+    provider: Object,
+    reviews: Array
 })
 
 const tabActive = ref('Layanan')
 
 const tabs = [
-    { id: 0, name: 'Layanan', stat: props?.services.length || 0 },
-    { id: 1, name: 'Obatan', stat: props?.drugs.length || 0 },
+    { id: 0, name: 'Layanan', stat: props?.services?.length || 0 },
+    { id: 1, name: 'Obatan', stat: props?.drugs?.length || 0 },
+    { id: 3, name: 'Ulasan', stat: props?.reviews?.length || 0 },
     { id: 2, name: 'Lokasi' },
-    { id: 3, name: 'Ulasan' }
 ]
 
 </script>

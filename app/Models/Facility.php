@@ -32,6 +32,11 @@ class Facility extends Model
         return $this->hasMany(Service::class);
     }
 
+    public function reviews()
+    {
+        return $this->morphMany(Review::class, 'reviewable');
+    }
+
     public function generateSlug()
     {
         $this->slug = Str::slug($this->name, '-');
