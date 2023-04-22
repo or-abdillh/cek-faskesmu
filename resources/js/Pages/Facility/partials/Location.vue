@@ -1,11 +1,11 @@
 <template>
     <main>
-        <section class="bg-gray-200 p-3 mb-4 text-gray-700">
+        <section class="bg-gray-200 p-4 mb-4 text-gray-700 rounded-lg">
             <p>Lokasi anda saat ini berada pada <strong ref="locationEl">...</strong></p>
             <small>Pastikan anda telah memberikan akses lokasi kepada website ini, Gunakan perangkat mobile untuk mendapatkan keakuratan lebih tinggi</small>
         </section>
 
-        <section id="map" class="z-10 md:h-[60vh]"></section>
+        <section id="map" class="z-10 h-[60vh]"></section>
     </main>
 </template>
 

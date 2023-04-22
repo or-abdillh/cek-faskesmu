@@ -17,12 +17,12 @@ class ServicesSeeder extends Seeder
         //
         $faker = Faker::create('id_ID');
 
-        for( $i = 1; $i <= 100; $i++ ) {
+        for( $i = 1; $i <= 500; $i++ ) {
             Service::create([
                 'name' => $faker->unique()->words($nb = 2, $asText = true),
-                'facility_id' => rand(1, 20),
+                'facility_id' => rand(1, 100),
                 'price' => rand(10000, 100000),
-                'description' => $faker->sentence(),
+                'description' => $faker->paragraph(3),
                 'unit_type' => $faker->randomElement(['Jam', 'Sesi', 'Hari']),
             ]);
         }

@@ -23,8 +23,9 @@
                 <section class="flex flex-col md:flex-row items-end md:items-center gap-4">
                     <ProfileButton v-if="$page.props.auth.user"></ProfileButton>
                     <Link v-else class="bg-green-700 text-gray-50 px-6 py-3 rounded-full" href="/login">
-                    Masuk
+                        Masuk
                     </Link>
+                    <Link :href="route('logout')" method="post" as="button">Logout</Link>
                 </section>
             </section>
             <!-- Collapse button -->

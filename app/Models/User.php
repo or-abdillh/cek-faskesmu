@@ -47,4 +47,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Facility::class);
     }
+
+    public function reviews()
+    {
+        return $this->morphMany(Review::class, 'reviewable');
+    }
 }

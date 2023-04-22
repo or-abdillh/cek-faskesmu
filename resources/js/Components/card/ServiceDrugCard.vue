@@ -29,9 +29,8 @@
                     </span>
                 </section>
                 <!-- other cta -->
-                <section class="text-sm flex gap-4 text-blue-700">
-                    <Link href="/">Beri rating</Link>
-                    <Link href="/">Ulasan anda</Link>
+                <section class="text-sm text-blue-700">
+                    <button @click="seeReview">Lihat ulasan</button>
                 </section>
             </section>
             <!-- view more -->
@@ -66,7 +65,11 @@ const props = defineProps({
     data: Object
 })
 
+const emits = defineEmits(['card:open-review-page'])
+
 const isBookmarked = ref(false)
 const isViewMore = ref(false)
+
+const seeReview = id => emits('card:open-review-page')
 
 </script>

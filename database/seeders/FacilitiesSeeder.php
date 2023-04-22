@@ -18,19 +18,19 @@ class FacilitiesSeeder extends Seeder
         //
         $faker = Faker::create('id_ID');
 
-        for ($i=0; $i < 20; $i++) {
+        for ($i = 1; $i <= 100; $i++) {
             Facility::create(
                 [
-                    'name' => $faker->company(),
-                    'user_id' => rand(1,20),
+                    'name' => $faker->unique()->company(),
+                    'user_id' => $i,
                     'location_id' => rand(1,5),
                     'category' => $faker->randomElement(['Rumah Sakit', 'Apotek', 'Klinik', 'Praktek']),
-                    'description' => $faker->sentence(),
+                    'description' => $faker->paragraph(5),
                     'address' => $faker->address(),
                     'phone_number' => $faker->phoneNumber(),
                     'website' => $faker->url(),
-                    'longitude' => $faker->longitude($min = 106, $max = 110),
-                    'latitude' => $faker->latitude($min = -6, $max = -2)
+                    'longitude' => $faker->longitude($min = 114, $max = 116),
+                    'latitude' => $faker->latitude($min = -4, $max = -2)
                 ]
             );
         }

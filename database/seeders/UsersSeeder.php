@@ -18,26 +18,19 @@ class UsersSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        // Create superadmin user
-        $superadmin = User::create([
-            'name' => 'Superadmin',
-            'email' => 'superadmin@gmail.com',
-            'password' => Hash::make('12345678'),
-        ]);
-        $superadminRole = Role::findByName('superadmin');
-        $superadmin->assignRole($superadminRole);
-
         // Create provider user
-        $provider = User::create([
-            'name' => 'Provider',
-            'email' => 'provider@gmail.com',
-            'password' => Hash::make('12345678'),
-        ]);
-        $providerRole = Role::findByName('provider');
-        $provider->assignRole($providerRole);
+        for ($i = 0; $i < 100; $i++) {
+            $provider = User::create([
+                'name' => $faker->name,
+                'email' => $faker->unique()->safeEmail,
+                'password' => Hash::make('12345678'),
+            ]);
+            $providerRole = Role::findByName('provider');
+            $provider->assignRole($providerRole);
+        }
 
-        // Create 20 regular users
-        for ($i = 0; $i < 20; $i++) {
+        // Create regular users
+        for ($i = 0; $i < 100; $i++) {
             $user = User::create([
                 'name' => $faker->name,
                 'email' => $faker->unique()->safeEmail,

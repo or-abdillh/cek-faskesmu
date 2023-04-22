@@ -25,12 +25,12 @@
                 <!-- rate -->
                 <span>
                     <i class="fa-solid fa-star"></i>
-                    4.5
+                    {{ props?.facility?.rate }}
                 </span>
                 <!-- reviews -->
                 <span>
                     <i class="fa-solid fa-user-group"></i>
-                    12
+                    {{ props?.facility?.userHasRate }}
                 </span>
             </section>
             <!-- CTA -->

@@ -97,7 +97,7 @@ const filtering = () => {
 onMounted(() => {
 
     // Leaflet Init
-    const map = L.map('map').setView([props.centerMap?.lat, props.centerMap?.lng], 6)
+    const map = L.map('map').setView([props.centerMap?.lat, props.centerMap?.lng], 8)
 
     // Add layer
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

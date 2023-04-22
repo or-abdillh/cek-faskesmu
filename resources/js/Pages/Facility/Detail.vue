@@ -3,7 +3,7 @@
         <!-- header -->
         <header class="bg-green-800 md:px-12 p-8 md:py-16 mt-28">
             <BreadCrumb></BreadCrumb>
-            <section class="flex justify-between items-center">
+            <section class="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
                 <!-- Profile -->
                 <section class="md:w-8/12 text-gray-300">
                     <h1 class="text-3xl md:text-4xl font-semibold text-gray-200 mb-3">{{ props.facility?.name }}</h1>
@@ -12,8 +12,8 @@
                     <p>{{ props.facility?.description }}</p>
                 </section>
                 <!-- actions -->
-                <section class="flex flex-col gap-3 text-gray-200">
-                    <Link href="/"><i class="fa-solid fa-star mr-2"></i>Beri rating</Link>
+                <section class="w-full flex md:flex-col gap-3 text-gray-200 md:text-right">
+                    <span><i class="fa-solid fa-star mr-2"></i>{{ props?.rateAverage }}</span>
                     <Link href="/"><i class="fa-solid fa-edit mr-2"></i>Beri ulasan</Link>
                 </section>
             </section>
@@ -22,22 +22,22 @@
         <!-- contents -->
         <main class=" md:px-12 p-8 md:py-16">
             <!-- tabs -->
-            <section class="flex items-center gap-8 text-lg mb-8 sticky top-28 bg-gray-100 py-4 z-20">
+            <section class="flex items-center gap-2 md:gap-8 text-lg mb-8 sticky top-24 md:top-28 bg-gray-100 py-4 z-20">
                 <template v-for="tab in tabs" key="tab.id">
                     <button @click="tabActive = tab.name"
                         :class="tabActive === tab.name ? 'border-green-800 text-green-800' : 'text-gray-500 border-gray-100'"
                         class="relative duration-300 border-b-2 px-1 pb-2">
                         {{ tab.name }}
                         <span v-if="tab.stat"
-                            class="absolute -top-2 -right-4 h-5 w-5 text-xs bg-green-600 text-gray-200 rounded-full grid place-items-center">{{
+                            class="absolute -top-2 -right-2 md:-right-4 h-5 w-5 text-xs bg-green-600 text-gray-200 rounded-full grid place-items-center">{{
                                 tab?.stat
                             }}</span>
                     </button>
                 </template>
             </section>
-            <section class="flex justify-between">
+            <section class="flex flex-col md:flex-row justify-between">
                 <!-- tab view -->
-                <section class="w-8/12">
+                <section class="md:w-8/12">
                     <!-- Layanan -->
                     <Service v-if="tabActive === 'Layanan'" :services="props?.services"></Service>
                     <!-- Obatan -->
@@ -46,12 +46,10 @@
                     <Location v-if="tabActive === 'Lokasi'" :lat="props.facility?.latitude"
                         :lng="props.facility?.longitude"></Location>
                     <!-- Ulasan -->
-                    <Review :reviews="props?.reviews" v-if="tabActive === 'Ulasan'"></Review>
+                    <Review :reviews="props?.reviews" :average="props?.rateAverage" :facility-name="props?.facility?.name" v-if="tabActive === 'Ulasan'"></Review>
                 </section>
                 <!-- image -->
                 <section>
-                    <h2 class="text-gray-700 text-xl mb-2 text-right"> Foto Fasilitas Kesehatan
-                    </h2>
                     <img class="rounded-lg"
                         src="https://cdn0-production-assets-kly.akamaized.net/medias/1411942/small-portrait/059095200_1479717151-24.jpg"
                         alt="Faskes">
@@ -90,7 +88,8 @@ const props = defineProps({
     services: Array,
     drugs: Array,
     provider: Object,
-    reviews: Array
+    reviews: Array,
+    rateAverage: Number
 })
 
 const tabActive = ref('Layanan')

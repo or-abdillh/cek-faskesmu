@@ -41,7 +41,9 @@ class HomeController extends Controller
                 "longitude" => $facility->longitude,
                 "latitude" => $facility->latitude,
                 "location" => $facility->location->city,
-                "URL" => route('user.facility.detail', $facility->slug)
+                "URL" => route('user.facility.detail', $facility->slug),
+                "rate" => number_format($facility->reviews->avg('rate'), 1),
+                "userHasRate" => $facility->reviews->count()
             ];
         });
 

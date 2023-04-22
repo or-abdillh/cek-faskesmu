@@ -34,7 +34,8 @@ class ReviewsSeeder extends Seeder
                     'user_id' => $user->id,
                     'reviewable_id' => $facility->id,
                     'reviewable_type' => 'App\Models\Facility',
-                    'content' => $faker->sentence()
+                    'content' => $faker->sentence(),
+                    'rate' => rand(1, 5)
                 ]);
             });
 
@@ -44,7 +45,8 @@ class ReviewsSeeder extends Seeder
                     'user_id' => $user->id,
                     'reviewable_id' => $drug->id,
                     'reviewable_type' => 'App\Models\Drug',
-                    'content' => $faker->sentence()
+                    'content' => $faker->sentence(),
+                    'rate' => rand(1, 5)
                 ]);
             });
 
@@ -53,7 +55,8 @@ class ReviewsSeeder extends Seeder
                     'user_id' => $user->id,
                     'reviewable_id' => $service->id,
                     'reviewable_type' => 'App\Models\Service',
-                    'content' => $faker->sentence()
+                    'content' => $faker->sentence(),
+                    'rate' => rand(1, 5)
                 ]);
             });
         }

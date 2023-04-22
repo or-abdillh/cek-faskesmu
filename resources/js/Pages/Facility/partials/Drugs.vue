@@ -9,7 +9,7 @@
         <SearchBar></SearchBar>
 
         <!-- cards -->
-        <section class="w-full columns-2">
+        <section class="w-full md:columns-2">
             <template v-for="drug in props?.drugs" :key="drug?.id">
                 <DrugCard class="break-inside-avoid" :data="drug"></DrugCard>
             </template>
