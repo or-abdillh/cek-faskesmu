@@ -19,15 +19,19 @@ class FacilityController extends Controller
         $services = $facility->services;
         $provider = $facility->user;
 
-        $reviews = $facility->reviews->map(function($review) {
-            return [
-                'username' => $review->user->name,
-                'content' => $review->content,
-                'created_at' => $review->created_at->diffForHumans(),
-                'count' => Review::where('user_id', $review->user->id)->where('reviewable_type', 'App\Models\Facility')->count(),
-                'rate' => $review->rate
-            ];
-        });
+        $reviews = Review::where('reviewable_type', 'App\\Models\\Facility')
+            ->where('reviewable_id', $facility->id)
+            ->latest()
+            ->get()
+            ->map(function($review) {
+                return [
+                    'username' => $review->user->name,
+                    'content' => $review->content,
+                    'created_at' => $review->created_at->diffForHumans(),
+                    'count' => Review::where('user_id', $review->user->id)->where('reviewable_type', 'App\Models\Facility')->count(),
+                    'rate' => $review->rate
+                ];
+            });
 
         $rateAverage = number_format( $facility->reviews->avg('rate') , 1);
 

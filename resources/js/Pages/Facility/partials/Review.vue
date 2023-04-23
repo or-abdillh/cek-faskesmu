@@ -27,7 +27,7 @@
 
         <!-- cards -->
         <section class="columns-1 md:columns-2 gap-2">
-            <template v-for="review in props.reviews?.reverse()" :key="review.id">
+            <template v-for="review in props.reviews" :key="review.id">
                 <ReviewCard class="break-inside-avoid mb-4 w-11/12" :review="review"></ReviewCard>
             </template>
         </section>

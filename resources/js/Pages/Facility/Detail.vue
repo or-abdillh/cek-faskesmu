@@ -47,8 +47,8 @@
                     <Location v-if="tabActive === 'Lokasi'" :lat="props.facility?.latitude"
                         :lng="props.facility?.longitude"></Location>
                     <!-- Ulasan -->
-                    <Review :reviews="props?.reviews.reverse()" :average="props?.rateAverage"
-                        :facility-name="props?.facility?.name" v-if="tabActive === 'Ulasan'"></Review>
+                    <Review :reviews="props?.reviews" :average="props?.rateAverage" :facility-name="props?.facility?.name"
+                        v-if="tabActive === 'Ulasan'"></Review>
                 </section>
                 <!-- image -->
                 <section>
