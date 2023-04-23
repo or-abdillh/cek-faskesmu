@@ -17,6 +17,7 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
+        "@kyvg/vue3-notification": "^2.9.0",
         "@splidejs/vue-splide": "^0.6.12",
         "aos": "^2.3.4"
     }

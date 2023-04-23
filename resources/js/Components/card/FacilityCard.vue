@@ -4,8 +4,9 @@
         <section
             class="w-full flex py-4 justify-end pr-4 rounded-xl shadow h-44 bg-top bg-cover bg-[url('https://cdn0-production-assets-kly.akamaized.net/medias/1411942/small-portrait/059095200_1479717151-24.jpg')]">
             <button v-if="props.isLogin" :title="isFavorited ? 'Tersimpan' : 'Simpan'" @click="favorited"
-                class="w-10 h-10 hover:bg-opacity-75 active:scale-105 duration-300 grid place-items-center rounded-full bg-gray-100 bg-opacity-50 backdrop-blur"><i
-                    :class="isFavorited ? 'fa-solid text-green-600' : 'fa-regular text-green-600'"
+                class="w-10 h-10 hover:bg-opacity-75 active:scale-105 duration-300 grid place-items-center rounded-full bg-gray-100 bg-opacity-50 backdrop-blur">
+                <i v-if="form.processing" class="fa-solid fa-spinner spinner text-gray-500"></i>
+                <i v-else :class="isFavorited ? 'fa-solid text-green-600' : 'fa-regular text-green-600'"
                     class="fa-bookmark"></i></button>
         </section>
         <!-- copywriter -->
@@ -46,7 +47,10 @@
 
 import { ref } from 'vue'
 import { Link, useForm, usePage } from '@inertiajs/vue3'
+import { useNotification } from '@kyvg/vue3-notification'
 import BaseLayoutCard from '@/Components/card/BaseLayoutCard.vue'
+
+const { notify } = useNotification()
 
 const props = defineProps({
     facility: Object,
@@ -71,6 +75,10 @@ const favorited = () => {
         form.post('/favorite', {
             onSuccess() {
                 isFavorited.value = !isFavorited.value
+                notify({
+                    title: 'Pemberitahuan',
+                    text: isFavorited.value ? 'Berhasil menambahkan item favorit' : 'Hapus item dari favorit'
+                })
             }
         })
     } catch (err) {

@@ -9,7 +9,7 @@ class Review extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['content'];
+    protected $guarded = [];
 
     public function reviewable()
     {

@@ -4,6 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\FacilityController as UserFacilityController;
 use App\Http\Controllers\User\FavoriteController as UserFavoriteController;
+use App\Http\Controllers\User\ReviewController as UserReviewController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -34,6 +35,7 @@ Route::group([ 'middleware' => ['auth', 'role:user'] ], function() {
     Route::group(["as" => "user."], function() {
 
         Route::resource('/favorite', UserFavoriteController::class);
+        Route::resource('/review', UserReviewController::class);
     });
 });
 

@@ -13,9 +13,10 @@
                 <template v-for="(average, index) in averageDetails" :key="average">
                     <!-- star -->
                     <section class="flex items-center gap-3 text-gray-700">
-                        <div class="flex items-center gap-1">{{ index + 1 }} <i class="fa-solid fa-star text-yellow-400"></i></div>
+                        <div class="flex items-center gap-1">{{ index + 1 }} <i
+                                class="fa-solid fa-star text-yellow-400"></i></div>
                         <div class="w-full h-2 bg-gray-200 rounded overflow-hidden">
-                            <div :style="`width: ${ average }`" class="h-2 bg-yellow-400"></div>
+                            <div :style="`width: ${average}`" class="h-2 bg-yellow-400"></div>
                         </div>
                     </section>
                 </template>
@@ -23,11 +24,11 @@
         </section>
 
         <p class="text-gray-700 mb-8">Menampilkan {{ props?.reviews?.length }} ulasan tentang {{ props?.facilityName }}</p>
-        
+
         <!-- cards -->
-        <section class="flex justify-between flex-wrap gap-4">
+        <section class="columns-1 md:columns-2 gap-2">
             <template v-for="review in props.reviews?.reverse()" :key="review.id">
-                <ReviewCard class="md:w-[47%]" :review="review"></ReviewCard>
+                <ReviewCard class="break-inside-avoid mb-4 w-11/12" :review="review"></ReviewCard>
             </template>
         </section>
     </main>
@@ -47,9 +48,9 @@ const props = defineProps({
 
 const averageDetails = ref([])
 
-for ( let rate = 1; rate <= 5; rate++ ) {
+for (let rate = 1; rate <= 5; rate++) {
     averageDetails.value.push(
-        ( props?.reviews.filter(review => review.rate === rate).length / props?.reviews.length ) * 100 + '%'
+        (props?.reviews.filter(review => review.rate === rate).length / props?.reviews.length) * 100 + '%'
     )
 }
 

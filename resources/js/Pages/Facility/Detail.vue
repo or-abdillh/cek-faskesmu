@@ -12,9 +12,10 @@
                     <p>{{ props.facility?.description }}</p>
                 </section>
                 <!-- actions -->
-                <section class="w-full flex md:flex-col gap-3 text-gray-200 md:text-right">
+                <section class="w-full md:w-3/12 flex md:flex-col gap-3 text-gray-200 md:text-right">
                     <span><i class="fa-solid fa-star mr-2"></i>{{ props?.rateAverage }}</span>
-                    <Link href="/"><i class="fa-solid fa-edit mr-2"></i>Beri ulasan</Link>
+                    <p class="cursor-pointer" @click="showModal = !showModal"><i class="fa-solid fa-edit mr-2"></i>Beri
+                        ulasan</p>
                 </section>
             </section>
 
@@ -46,7 +47,8 @@
                     <Location v-if="tabActive === 'Lokasi'" :lat="props.facility?.latitude"
                         :lng="props.facility?.longitude"></Location>
                     <!-- Ulasan -->
-                    <Review :reviews="props?.reviews" :average="props?.rateAverage" :facility-name="props?.facility?.name" v-if="tabActive === 'Ulasan'"></Review>
+                    <Review :reviews="props?.reviews.reverse()" :average="props?.rateAverage"
+                        :facility-name="props?.facility?.name" v-if="tabActive === 'Ulasan'"></Review>
                 </section>
                 <!-- image -->
                 <section>
@@ -70,12 +72,18 @@
             </section>
         </main>
     </BaseLayout>
+
+    <!-- modal -->
+    <Modal :show="showModal" max-width="md">
+        <UserReview :item="props?.facility" type="App\Models\Facility" @modal:close="showModal = false"></UserReview>
+    </Modal>
 </template>
 
 <script setup>
 
-import { ref  } from 'vue'
-import { Link } from '@inertiajs/vue3'
+import { ref } from 'vue'
+import Modal from '@/Components/Modal.vue'
+import UserReview from '@/Components/form/UserReview.vue'
 import BaseLayout from '@/Layouts/BaseLayout.vue'
 import BreadCrumb from '@/Components/base/BreadCrumb.vue'
 import Service from '@/Pages/Facility/partials/Service.vue'
@@ -93,11 +101,12 @@ const props = defineProps({
 })
 
 const tabActive = ref('Layanan')
+const showModal = ref(false)
 
 const tabs = [
     { id: 0, name: 'Layanan', stat: props?.services?.length || 0 },
     { id: 1, name: 'Obatan', stat: props?.drugs?.length || 0 },
-    { id: 3, name: 'Ulasan', stat: props?.reviews?.length || 0 },
+    { id: 3, name: 'Ulasan' },
     { id: 2, name: 'Lokasi' },
 ]
 

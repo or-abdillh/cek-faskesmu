@@ -11,3 +11,17 @@
         font-family: 'Lato', sans-serif;
     }
 }
+
+@keyframes spin {
+    from {
+        transform: rotate(0);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner {
+    animation: spin infinite ease 1s;
+}

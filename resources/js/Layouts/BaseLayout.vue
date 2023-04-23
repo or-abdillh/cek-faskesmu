@@ -1,5 +1,6 @@
 <template>
     <NavigationBar></NavigationBar>
+    <Notifications position="bottom left"></Notifications>
     <main class="min-h-screen">
         <slot />
     </main>
