@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Facility;
+use App\Models\Favorite;
 use App\Models\Review;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -15,9 +16,67 @@ class FacilityController extends Controller
     public function detail($slug)
     {
         $facility = Facility::where('slug', $slug)->first();
-        $drugs = $facility->drugs;
-        $services = $facility->services;
         $provider = $facility->user;
+
+        $drugs = $facility->drugs
+            ->map(function($drug) {
+                return [
+                    "id" => $drug->id,
+                    "name" => $drug->name,
+                    "description" => $drug->description,
+                    "price" => $drug->price,
+                    "unit_type" => $drug->unit_type,
+                    "userHasRate" => $drug->reviews->count(),
+
+                    "rate" => number_format( $drug->reviews->avg('rate'), 1 ),
+
+                    "isUserFavorite" => Favorite::where('user_id', auth()->user()->id)->where('favoritable_type', 'App\Models\Drug')->where('favoritable_id', $drug->id)->first(),
+
+                    "reviews" => Review::where('reviewable_type', 'App\\Models\\Drug')
+                        ->where('reviewable_id', $drug->id)
+                        ->latest()
+                        ->get()
+                        ->map(function($review) {
+                            return [
+                                'username' => $review->user->name,
+                                'content' => $review->content,
+                                'created_at' => $review->created_at->diffForHumans(),
+                                'rate' => $review->rate
+                            ];
+                        })
+                ];
+            });
+
+        $services = $facility->services
+            ->map(function($service) {
+                return [
+                    "id" => $service->id,
+                    "name" => $service->name,
+                    "description" => $service->description,
+                    "price" => $service->price,
+                    "unit_type" => $service->unit_type,
+                    "userHasRate" => $service->reviews->count(),
+
+                    "rate" => number_format( $service->reviews->avg('rate'), 1 ),
+                    
+                    "isUserFavorite" => Favorite::where('user_id', auth()->user()->id)->where('favoritable_type', 'App\Models\Service')->where('favoritable_id', $service->id)->first(),
+                    
+                    "reviews" => Review::where('reviewable_type', 'App\\Models\\Service')
+                        ->where('reviewable_id', $service->id)
+                        ->latest()
+                        ->get()
+                        ->map(function($review) {
+                            return [
+                                'username' => $review->user->name,
+                                'content' => $review->content,
+                                'created_at' => $review->created_at->diffForHumans(),
+                                'rate' => $review->rate
+                            ];
+                        })
+                ];
+            });
+
+        // return $services;
 
         $reviews = Review::where('reviewable_type', 'App\\Models\\Facility')
             ->where('reviewable_id', $facility->id)
@@ -28,7 +87,6 @@ class FacilityController extends Controller
                     'username' => $review->user->name,
                     'content' => $review->content,
                     'created_at' => $review->created_at->diffForHumans(),
-                    'count' => Review::where('user_id', $review->user->id)->where('reviewable_type', 'App\Models\Facility')->count(),
                     'rate' => $review->rate
                 ];
             });

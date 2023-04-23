@@ -3,11 +3,12 @@
         <!-- header -->
         <section class="flex gap-4 mb-5">
             <!-- avatar -->
-            <span><img class="rounded-full" width="50" :src="`https://ui-avatars.com/api/?background=228B22&color=fff&name=${ props?.review?.username }`"></span>
+            <span><img class="rounded-full" width="50"
+                    :src="`https://ui-avatars.com/api/?background=228B22&color=fff&name=${props?.review?.username}`"></span>
             <!-- stat and name -->
             <section>
                 <p class="text-gray-800">{{ props?.review?.username }}</p>
-                <small class="text-gray-600">{{ props?.review?.count }} ulasan faskes lain</small>
+                <small class="text-gray-600">Memposting ulasan</small>
             </section>
         </section>
         <!-- body -->

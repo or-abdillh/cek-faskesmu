@@ -58,7 +58,7 @@ const { notify } = useNotification()
 
 const page = usePage()
 
-const emits = defineEmits(['modal:close'])
+const emits = defineEmits(['modal:close', 'modal:finish'])
 
 const props = defineProps({
     item: Object,
@@ -86,6 +86,14 @@ const submit = () => {
     form.post('/review', {
         onSuccess() {
             emits('modal:close')
+
+            emits('modal:finish', {
+                username: page.props.auth.user.name,
+                rate: rate.value,
+                content: form.content,
+                created_at: 'a few second ago',
+            })
+
             notify({
                 title: 'Pemberitahuan',
                 text: 'Sukses melakukan posting ulasan'

@@ -3,10 +3,15 @@
         <!-- thumbnail -->
         <section
             class="w-full flex py-4 justify-end pr-4 rounded-xl shadow h-44 bg-top bg-cover bg-[url('https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fGRvY3RvcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60')]">
-            <button v-if="$page.props.auth" title="Simpan" @click="isBookmarked = !isBookmarked"
-                class="w-10 h-10 hover:bg-opacity-75 active:scale-105 duration-300 grid place-items-center rounded-full bg-gray-400 bg-opacity-50 backdrop-blur text-gray-200 border border-gray-300 z-10"><i
-                    :class="isBookmarked ? 'fa-solid' : 'fa-regular'" class="fa-bookmark"></i></button>
+            <!-- favorite button -->
+            <button v-if="$page.props.auth" title="Simpan" @click="favorited"
+                class="w-10 h-10 hover:bg-opacity-75 active:scale-105 duration-300 grid place-items-center rounded-full bg-gray-400 bg-opacity-50 backdrop-blur text-gray-200 border border-gray-300 z-10">
+                <i v-if="form.processing" class="fa-solid fa-spinner spinner text-gray-500"></i>
+                <i v-else :class="isFavorited ? 'fa-solid text-gray-200' : 'fa-regular text-gray-200'"
+                    class="fa-bookmark"></i>
+            </button>
         </section>
+
         <!-- contents -->
         <section class="py-4">
             <h1 class="text-gray-700 text-lg font-semibold mt-1 mb-3">{{ props.data?.name }}</h1>
@@ -20,12 +25,12 @@
                     <!-- rate -->
                     <span>
                         <i class="fa-solid fa-star"></i>
-                        4.5
+                        {{ props.data?.rate }}
                     </span>
                     <!-- reviews -->
                     <span>
                         <i class="fa-solid fa-user-group"></i>
-                        12
+                        {{ props.data?.userHasRate }}
                     </span>
                 </section>
                 <!-- other cta -->
@@ -58,18 +63,45 @@
 <script setup>
 
 import { ref } from 'vue'
-import { Link } from '@inertiajs/vue3'
+import { Link, useForm, usePage } from '@inertiajs/vue3'
+import { useNotification } from '@kyvg/vue3-notification'
 import BaseLayoutCard from '@/Components/card/BaseLayoutCard.vue'
 
+const page = usePage()
+const { notify } = useNotification()
+
 const props = defineProps({
-    data: Object
+    data: Object,
+    type: String
 })
 
 const emits = defineEmits(['card:open-review-page'])
 
-const isBookmarked = ref(false)
+const isFavorited = ref(props?.data?.isUserFavorite ? true : false)
 const isViewMore = ref(false)
 
-const seeReview = id => emits('card:open-review-page')
+const seeReview = () => emits('card:open-review-page', { reviews: props.data?.reviews, item: props.data })
+
+const form = useForm({
+    user_id: page.props.auth.user.id,
+    favoritable_id: props.data?.id,
+    favoritable_type: props.type
+})
+
+const favorited = () => {
+    try {
+        form.post('/favorite', {
+            onSuccess() {
+                isFavorited.value = !isFavorited.value
+                notify({
+                    title: 'Pemberitahuan',
+                    text: isFavorited.value ? 'Berhasil menambahkan item favorit' : 'Hapus item dari favorit'
+                })
+            }
+        })
+    } catch (err) {
+        console.log(err)
+    }
+}
 
 </script>
