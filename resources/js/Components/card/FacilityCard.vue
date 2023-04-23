@@ -3,9 +3,10 @@
         <!-- thumbnail -->
         <section
             class="w-full flex py-4 justify-end pr-4 rounded-xl shadow h-44 bg-top bg-cover bg-[url('https://cdn0-production-assets-kly.akamaized.net/medias/1411942/small-portrait/059095200_1479717151-24.jpg')]">
-            <button v-if="props.isLogin" title="Simpan" @click="isBookmarked = !isBookmarked"
-                class="w-10 h-10 hover:bg-opacity-75 active:scale-105 duration-300 grid place-items-center rounded-full bg-gray-100 bg-opacity-50 backdrop-blur text-gray-200"><i
-                    :class="isBookmarked ? 'fa-solid' : 'fa-regular'" class="fa-bookmark"></i></button>
+            <button v-if="props.isLogin" :title="isFavorited ? 'Tersimpan' : 'Simpan'" @click="favorited"
+                class="w-10 h-10 hover:bg-opacity-75 active:scale-105 duration-300 grid place-items-center rounded-full bg-gray-100 bg-opacity-50 backdrop-blur"><i
+                    :class="isFavorited ? 'fa-solid text-green-600' : 'fa-regular text-green-600'"
+                    class="fa-bookmark"></i></button>
         </section>
         <!-- copywriter -->
         <section class="py-4">
@@ -44,10 +45,9 @@
 <script setup>
 
 import { ref } from 'vue'
-import { Link } from '@inertiajs/vue3'
+import { Link, useForm, usePage } from '@inertiajs/vue3'
 import BaseLayoutCard from '@/Components/card/BaseLayoutCard.vue'
 
-const isBookmarked = ref(false)
 const props = defineProps({
     facility: Object,
     isLogin: {
@@ -55,5 +55,27 @@ const props = defineProps({
         default: false
     }
 })
+
+const isFavorited = ref(props?.facility?.isUserFavorite ? true : false)
+
+const page = usePage()
+
+const form = useForm({
+    user_id: page.props.auth.user.id,
+    favoritable_id: props?.facility?.id,
+    favoritable_type: 'App\\Models\\Facility',
+})
+
+const favorited = () => {
+    try {
+        form.post('/favorite', {
+            onSuccess() {
+                isFavorited.value = !isFavorited.value
+            }
+        })
+    } catch (err) {
+        console.error(err)
+    }
+}
 
 </script>

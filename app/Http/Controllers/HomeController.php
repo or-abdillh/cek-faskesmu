@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Drug;
 use App\Models\Facility;
+use App\Models\Favorite;
 use App\Models\Location;
 use App\Models\Service;
 use App\Models\User;
@@ -33,8 +34,10 @@ class HomeController extends Controller
 
     public function facility()
     {
+
         $facilities = Facility::all()->map(function($facility) {
             return [
+                "id" => $facility->id,
                 "name" => $facility->name,
                 "category" => $facility->category,
                 "address" => $facility->address,
@@ -43,7 +46,8 @@ class HomeController extends Controller
                 "location" => $facility->location->city,
                 "URL" => route('user.facility.detail', $facility->slug),
                 "rate" => number_format($facility->reviews->avg('rate'), 1),
-                "userHasRate" => $facility->reviews->count()
+                "userHasRate" => $facility->reviews->count(),
+                "isUserFavorite" => Favorite::where('user_id', auth()->user()->id)->where('favoritable_type', 'App\Models\Facility')->where('favoritable_id', $facility->id)->first()
             ];
         });
 
@@ -52,7 +56,7 @@ class HomeController extends Controller
 
         $locations = Location::select('city')->get();
 
-        // return response()->json($facilities);
+        // return $facilities;
 
         return Inertia::render('Facility/Index', [
             'facilities' => $facilities,
