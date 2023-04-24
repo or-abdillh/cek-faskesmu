@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use Spatie\Activitylog\Models\Activity;
 
 class ProfileController extends Controller
 {
@@ -93,10 +94,20 @@ class ProfileController extends Controller
                 })
         ];
 
-        // return $userFavorites;
+        $userActivities = Activity::whereCauserId(auth()->user()->id)
+            ->latest()
+            ->get()
+            ->map(function($activity) {
+                return [
+                    "id" => $activity->id,
+                    "description" => $activity->description,
+                    "timestamp" => $activity->created_at->diffForHumans()
+                ];
+            });
 
         return Inertia::render('Profile/Index', [
-            "userFavorites" => $userFavorites
+            "userFavorites" => $userFavorites,
+            "userActivities" => $userActivities
         ]);
     }
 

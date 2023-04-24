@@ -35,8 +35,21 @@ class FavoriteController extends Controller
             ->where('favoritable_id', $request->favoritable_id)
             ->first();
         
-        if ($favorite == null) Favorite::create($request->all());
-        else $favorite->delete();
+        if ($favorite == null) {
+            // Create new favorite record
+            Favorite::create([
+                'user_id' => auth()->user()->id,
+                'favoritable_type' => $request->favoritable_type,
+                'favoritable_id' => $request->favoritable_id
+            ]);
+
+            activity()->log('Menambahkan ' . $request->item . ' kedalam list item favorit');
+        }
+        else {
+            // Remove from favorite
+            $favorite->delete();
+            activity()->log('Menghapus ' . $request->item . ' dari list item favorit');
+        }
     }
 
     /**

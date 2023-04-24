@@ -64,6 +64,7 @@ const form = useForm({
     user_id: page.props.auth.user.id,
     favoritable_id: props?.facility?.id,
     favoritable_type: 'App\\Models\\Facility',
+    item: props.facility?.name
 })
 
 const favorited = () => {

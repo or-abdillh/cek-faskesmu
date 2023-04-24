@@ -89,7 +89,8 @@ const seeReview = () => emits('card:open-review-page', { reviews: props.data?.re
 const form = useForm({
     user_id: page.props.auth.user.id,
     favoritable_id: props.data?.id,
-    favoritable_type: props.type
+    favoritable_type: props.type,
+    item: props.data?.name
 })
 
 const favorited = () => {

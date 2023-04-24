@@ -38,7 +38,7 @@
                         <!-- item favorite -->
                         <Favorite :favorites="props.userFavorites" v-if="active === 'Item Favorit'"></Favorite>
                         <!-- Account activity -->
-                        <Activity v-if="active === 'Aktivitas'"></Activity>
+                        <Activity :activities="props.userActivities" v-if="active === 'Aktivitas'"></Activity>
                     </section>
                 </section>
             </section>
@@ -67,7 +67,8 @@ const tabs = [
 ]
 
 const props = defineProps({
-    userFavorites: Object
+    userFavorites: Object,
+    userActivities: Array
 })
 
 onMounted(() => {

@@ -30,8 +30,15 @@ class ReviewController extends Controller
     public function store(Request $request)
     {
         //
-        // return $request->all();
-        Review::create($request->all());
+        Review::create([
+            "user_id" => $request->user_id,
+            "reviewable_id" => $request->reviewable_id,
+            "reviewable_type" => $request->reviewable_type,
+            "content" => $request->content,
+            "rate" => $request->rate
+        ]);
+
+        activity()->log('Memposting rating dan ulasan pada ' . $request->item);
     }
 
     /**

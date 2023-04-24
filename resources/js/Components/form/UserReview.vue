@@ -78,7 +78,8 @@ const form = useForm({
     content: '',
     user_id: page.props.auth.user.id,
     reviewable_id: props?.item?.id,
-    reviewable_type: props?.type
+    reviewable_type: props?.type,
+    item: props.item.name
 })
 
 const submit = () => {
