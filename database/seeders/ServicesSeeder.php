@@ -17,7 +17,7 @@ class ServicesSeeder extends Seeder
         //
         $faker = Faker::create('id_ID');
 
-        for( $i = 1; $i <= 500; $i++ ) {
+        for( $i = 1; $i <= 200; $i++ ) {
             Service::create([
                 'name' => $faker->unique()->words($nb = 2, $asText = true),
                 'facility_id' => rand(1, 100),

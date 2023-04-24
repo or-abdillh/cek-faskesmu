@@ -26,12 +26,16 @@ Route::get('/about', [HomeController::class, 'about'])->name('home.about');
 Route::get('/facility', [HomeController::class, 'facility'])->name('home.facility');
 
 // User
-Route::group([ 'middleware' => ['auth', 'role:user'] ], function() {
+Route::group([ 'middleware' => ['auth', 'role:user|provider'] ], function() {
+
+    // Profile
+    Route::get('/profile', [ProfileController::class, 'index'])->name('user.profile.index');    
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('user.profile.update');
 
     // Facility
     Route::get('/facility/{slug}', [UserFacilityController::class, 'detail'])->name('user.facility.detail');
 
-    // Favorite
+    // Favorite and Review
     Route::group(["as" => "user."], function() {
 
         Route::resource('/favorite', UserFavoriteController::class);

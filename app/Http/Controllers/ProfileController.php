@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use DateTime;
+use DateTimeZone;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,6 +15,18 @@ use Inertia\Response;
 
 class ProfileController extends Controller
 {
+
+    public function index()
+    {
+        $date = auth()->user()->last_login_at;
+        $datetime = new DateTime($date, new DateTimeZone('UTC'));
+        $lastLoginAt = $datetime->format('Y-m-d\TH:i:s.u\Z');
+
+        auth()->user()->last_login_at = $lastLoginAt;
+
+        return Inertia::render('Profile/Index');
+    }
+
     /**
      * Display the user's profile form.
      */
@@ -37,7 +51,7 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit');
+        return Redirect::route('user.profile.index');
     }
 
     /**

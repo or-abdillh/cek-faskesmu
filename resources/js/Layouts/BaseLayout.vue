@@ -1,6 +1,7 @@
 <template>
     <NavigationBar></NavigationBar>
-    <Notifications position="bottom left"></Notifications>
+    <Notifications width="50%" :pause-on-hover="true" position="bottom left">
+    </Notifications>
     <main class="min-h-screen">
         <slot />
     </main>
