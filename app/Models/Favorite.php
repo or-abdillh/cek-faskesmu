@@ -20,4 +20,9 @@ class Favorite extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function facility()
+    {
+        return $this->belongsTo(Facility::class);
+    }
 }

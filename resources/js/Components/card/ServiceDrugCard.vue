@@ -4,7 +4,7 @@
         <section
             class="w-full flex py-4 justify-end pr-4 rounded-xl shadow h-44 bg-top bg-cover bg-[url('https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fGRvY3RvcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60')]">
             <!-- favorite button -->
-            <button v-if="$page.props.auth" title="Simpan" @click="favorited"
+            <button v-if="$page.props.auth.user" title="Simpan" @click="favorited"
                 class="w-10 h-10 hover:bg-opacity-75 active:scale-105 duration-300 grid place-items-center rounded-full bg-gray-400 bg-opacity-50 backdrop-blur text-gray-200 border border-gray-300 z-10">
                 <i v-if="form.processing" class="fa-solid fa-spinner spinner text-gray-500"></i>
                 <i v-else :class="isFavorited ? 'fa-solid text-gray-200' : 'fa-regular text-gray-200'"
@@ -34,7 +34,7 @@
                     </span>
                 </section>
                 <!-- other cta -->
-                <section class="text-sm text-blue-700">
+                <section v-if="props.useReview" class="text-sm text-blue-700">
                     <button @click="seeReview">Lihat ulasan</button>
                 </section>
             </section>
@@ -72,7 +72,11 @@ const { notify } = useNotification()
 
 const props = defineProps({
     data: Object,
-    type: String
+    type: String,
+    useReview: {
+        type: Boolean,
+        default: true
+    }
 })
 
 const emits = defineEmits(['card:open-review-page'])

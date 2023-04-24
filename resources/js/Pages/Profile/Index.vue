@@ -14,7 +14,8 @@
                                 {{ tab.name }}</button>
                         </template>
                         <!-- logout -->
-                        <Link class="text-left py-3 pl-6 text-gray-700" href="/logout" method="post" as="button">
+                        <Link class="text-left py-3 pl-6 text-gray-700 duration-300 hover:bg-green-50" href="/logout"
+                            method="post" as="button">
                         <i class="fa-solid fa-arrow-right-from-bracket w-5 mr-4"></i>
                         Keluar Akun
                         </Link>
@@ -24,9 +25,12 @@
                 <section class="w-full">
                     <!-- view of tab -->
                     <section class="w-full border border-gray-200 rounded-lg bg-gray-50 p-8">
-                        <KeepAlive>
-                            <component :is="tabs[active].component"></component>
-                        </KeepAlive>
+                        <!-- account -->
+                        <Account v-if="active === 0"></Account>
+                        <!-- item favorite -->
+                        <Favorite :favorites="props.userFavorites" v-if="active === 1"></Favorite>
+                        <!-- Account activity -->
+                        <Activity v-if="active === 2"></Activity>
                     </section>
                 </section>
             </section>
@@ -53,6 +57,10 @@ const tabs = [
     { id: 1, name: 'Item Favorit', icon: 'fa-solid fa-bookmark', component: Favorite },
     { id: 2, name: 'Aktivitas', icon: 'fa-solid fa-user-clock', component: Activity }
 ]
+
+const props = defineProps({
+    userFavorites: Object
+})
 
 onMounted(() => {
     notify({

@@ -3,10 +3,10 @@
         <!-- thumbnail -->
         <section
             class="w-full flex py-4 justify-end pr-4 rounded-xl shadow h-44 bg-top bg-cover bg-[url('https://cdn0-production-assets-kly.akamaized.net/medias/1411942/small-portrait/059095200_1479717151-24.jpg')]">
-            <button v-if="props.isLogin" :title="isFavorited ? 'Tersimpan' : 'Simpan'" @click="favorited"
+            <button v-if="$page.props.auth.user" :title="isFavorited ? 'Tersimpan' : 'Simpan'" @click="favorited"
                 class="w-10 h-10 hover:bg-opacity-75 active:scale-105 duration-300 grid place-items-center rounded-full bg-gray-100 bg-opacity-50 backdrop-blur">
                 <i v-if="form.processing" class="fa-solid fa-spinner spinner text-gray-500"></i>
-                <i v-else :class="isFavorited ? 'fa-solid text-green-600' : 'fa-regular text-green-600'"
+                <i v-else :class="isFavorited ? 'fa-solid text-gray-200' : 'fa-regular text-gray-200'"
                     class="fa-bookmark"></i></button>
         </section>
         <!-- copywriter -->
@@ -54,10 +54,6 @@ const { notify } = useNotification()
 
 const props = defineProps({
     facility: Object,
-    isLogin: {
-        type: Boolean,
-        default: false
-    }
 })
 
 const isFavorited = ref(props?.facility?.isUserFavorite ? true : false)
