@@ -5,9 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\FacilityController as UserFacilityController;
 use App\Http\Controllers\User\FavoriteController as UserFavoriteController;
 use App\Http\Controllers\User\ReviewController as UserReviewController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,11 +27,12 @@ Route::get('/facility', [HomeController::class, 'facility'])->name('home.facilit
 Route::group([ 'middleware' => ['auth', 'role:user|provider'] ], function() {
 
     // Profile
-    Route::get('/profile', [ProfileController::class, 'index'])->name('user.profile.index');    
+    Route::get('/profile', [ProfileController::class, 'index'])->name('user.profile.index');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('user.profile.update');
 
     // Facility
     Route::get('/facility/{slug}', [UserFacilityController::class, 'detail'])->name('user.facility.detail');
+    Route::patch('/facility/{id}', [UserFacilityController::class, 'update'])->name('user.facility.update');
 
     // Favorite and Review
     Route::group(["as" => "user."], function() {

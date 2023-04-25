@@ -23,6 +23,12 @@
             <!-- Profile -->
             <DashboardProfile :locations="props.dashboard?.locations" :profile="props.dashboard?.facility"
                 v-if="active === 'Profile'"></DashboardProfile>
+            <!-- Services -->
+            <DashboardService :services="props.dashboard?.services" v-if="active === 'Layanan'"></DashboardService>
+            <!-- Drugs -->
+            <DashboardDrug :drugs="props.dashboard?.drugs" v-if="active === 'Obatan'"></DashboardDrug>
+            <!-- Reset -->
+            <DashboardReset v-if="active === 'Reset'"></DashboardReset>
         </main>
     </section>
 </template>
@@ -32,6 +38,9 @@
 import { ref } from 'vue'
 import DashboardResume from '@/Pages/Profile/Partials/DashboardResume.vue'
 import DashboardProfile from '@/Pages/Profile/Partials/DashboardProfile.vue'
+import DashboardService from '@/Pages/Profile/Partials/DashboardService.vue'
+import DashboardDrug from '@/Pages/Profile/Partials/DashboardDrug.vue'
+import DashboardReset from '@/Pages/Profile/Partials/DashboardReset.vue'
 
 const props = defineProps({
     dashboard: Object
@@ -43,7 +52,8 @@ const tabs = [
     { id: 0, name: 'Ringkasan' },
     { id: 1, name: 'Profile' },
     { id: 2, name: 'Layanan' },
-    { id: 3, name: 'Obatan' }
+    { id: 3, name: 'Obatan' },
+    { id: 4, name: 'Reset' },
 ]
 
 </script>

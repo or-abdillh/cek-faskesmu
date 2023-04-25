@@ -102,4 +102,30 @@ class FacilityController extends Controller
             "rateAverage" => $rateAverage
         ]);
     }
+
+    public function update(Request $request, $id)
+    {
+        $facility = Facility::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|max:255',
+            'location_id' => 'required',
+            'category' => 'required',
+            'description' => 'required',
+            'address' => 'required',
+            'phone_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/',
+            'website' => 'url',
+            'longitude' => 'required|numeric|between:-180,180',
+            'latitude' => 'required|numeric|between:-180,180'
+        ]);
+
+        $facility->update($request->all());
+
+        activity()->log('Melakukan perubahan pada fasilitas');
+    }
+
+    public function store(Request $request)
+    {
+        
+    }
 }

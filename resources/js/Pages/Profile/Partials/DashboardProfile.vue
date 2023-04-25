@@ -1,6 +1,6 @@
 <template>
     <section>
-        <form @submit.prevent="">
+        <form @submit.prevent="submit">
             <!-- name -->
             <section class="mb-6">
                 <InputLabel for="name" value="Nama Fasilitas"></InputLabel>
@@ -95,7 +95,11 @@
             </section>
 
             <!-- submit -->
-            <button type="submit" class="bg-green-500 w-full py-2 rounded-md text-gray-200">Simpan</button>
+            <button type="submit" :class="{ 'bg-opacity-50': form.processing }"
+                class="bg-green-500 w-full py-2 rounded-md text-gray-200">
+                <i v-if="form.processing" class="fa-solid fa-spinner spinner"></i>
+                <template v-else>Simpan</template>
+            </button>
         </form>
     </section>
 
@@ -110,6 +114,7 @@
 
 import { ref } from 'vue'
 import { useForm } from '@inertiajs/vue3'
+import { useNotification } from '@kyvg/vue3-notification'
 import TextInput from '@/Components/TextInput.vue'
 import InputLabel from '@/Components/InputLabel.vue'
 import InputError from '@/Components/InputError.vue'
@@ -117,6 +122,8 @@ import Modal from '@/Components/Modal.vue'
 import MapPicker from '@/Pages/Profile/Partials/MapPicker.vue'
 
 const showModal = ref(false)
+
+const { notify } = useNotification()
 
 const props = defineProps({
     profile: Object,
@@ -139,6 +146,17 @@ const getMapPicker = map => {
     const { longitude, latitude } = map
     form.longitude = longitude
     form.latitude = latitude
+}
+
+const submit = () => {
+    form.patch(route('user.facility.update', props.profile?.id), {
+        onSuccess() {
+            notify({
+                title: 'Pemberitahuan',
+                text: 'Profile fasilitas anda telah berhasil di ubah'
+            })
+        }
+    })
 }
 
 const categories = ['Rumah Sakit', 'Apotek', 'Klinik', 'Praktek']

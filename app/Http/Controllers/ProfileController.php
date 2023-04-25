@@ -121,7 +121,9 @@ class ProfileController extends Controller
             $providerDashboard = [
                 "facility" => $user->facility,
                 "locations" => Location::all(),
-                "resume" => $resume
+                "resume" => $resume,
+                "services" => $user->facility->services,
+                "drugs" => $user->facility->drugs
             ];
 
             // return $providerDashboard;

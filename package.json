@@ -19,6 +19,7 @@
     "dependencies": {
         "@kyvg/vue3-notification": "^2.9.0",
         "@splidejs/vue-splide": "^0.6.12",
-        "aos": "^2.3.4"
+        "aos": "^2.3.4",
+        "datatables.net-dt": "^1.13.4"
     }
 }
