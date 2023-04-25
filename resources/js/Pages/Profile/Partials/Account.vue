@@ -36,6 +36,6 @@
 
 <script setup>
 
-import UpdateProfileInformationForm from '@/Pages/Profile/partials/UpdateProfileInformationForm.vue'
+import UpdateProfileInformationForm from '@/Pages/Profile/Partials/UpdateProfileInformationForm.vue'
 
 </script>

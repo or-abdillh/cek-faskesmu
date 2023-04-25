@@ -9,7 +9,7 @@
 
         </section>
 
-        <p class="text-gray-700 mb-8">Menampilkan {{ props?.reviews?.length }} ulasan tentang {{ props?.item }}</p>
+        <p class="text-gray-700 mb-8">Menampilkan {{ filteredItems.length }} ulasan tentang {{ props?.item }}</p>
 
         <!-- rate filter -->
         <RatePickerButtons @rate-picker:pick="filtering" @rate-picker:reset="filteredItems = props.reviews">

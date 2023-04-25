@@ -13,7 +13,7 @@
                                 class="fa-solid fa-home w-5 mr-4"></i>
                             Dashboard
                         </button>
-
+                        <!-- user tab -->
                         <template v-for="tab in tabs" :key="tab.id">
                             <button @click="active = tab.name"
                                 :class="{ 'bg-green-200 border-r-4 border-green-700': active === tab.name }"
@@ -33,6 +33,9 @@
                 <section class="w-full">
                     <!-- view of tab -->
                     <section class="w-full border border-gray-200 rounded-lg bg-gray-50 p-8">
+                        <!-- provider dashboard -->
+                        <ProviderDashboard v-if="active === 'Dashboard'" :dashboard="props.providerDashboard">
+                        </ProviderDashboard>
                         <!-- account -->
                         <Account v-if="active === 'Akun'"></Account>
                         <!-- item favorite -->
@@ -52,6 +55,7 @@ import { ref, onMounted } from 'vue'
 import { Link, usePage } from '@inertiajs/vue3'
 import { useNotification } from '@kyvg/vue3-notification'
 import BaseLayout from '@/Layouts/BaseLayout.vue'
+import ProviderDashboard from '@/Pages/Profile/Partials/Dashboard.vue'
 import Account from '@/Pages/Profile/Partials/Account.vue'
 import Favorite from '@/Pages/Profile/Partials/Favorite.vue'
 import Activity from '@/Pages/Profile/Partials/Activity.vue'
@@ -68,7 +72,8 @@ const tabs = [
 
 const props = defineProps({
     userFavorites: Object,
-    userActivities: Array
+    userActivities: Array,
+    providerDashboard: Object
 })
 
 onMounted(() => {

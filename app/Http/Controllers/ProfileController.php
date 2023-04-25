@@ -6,6 +6,7 @@ use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Drug;
 use App\Models\Facility;
 use App\Models\Favorite;
+use App\Models\Location;
 use App\Models\Service;
 use App\Models\User;
 use DateTime;
@@ -30,6 +31,9 @@ class ProfileController extends Controller
         $lastLoginAt = $datetime->format('Y-m-d\TH:i:s.u\Z');
 
         auth()->user()->last_login_at = $lastLoginAt;
+
+        // user
+        $user = Auth::user();
 
         // Get favorite items
         $userFavorites = [
@@ -66,9 +70,7 @@ class ProfileController extends Controller
                         "price" => $service->price,
                         "unit_type" => $service->unit_type,
                         "userHasRate" => $service->reviews->count(),
-    
                         "rate" => number_format( $service->reviews->avg('rate'), 1 ),
-                        
                         "isUserFavorite" => Favorite::where('user_id', auth()->user()->id)->where('favoritable_type', 'App\Models\Service')->where('favoritable_id', $service->id)->first(),
                     ];
                 }),
@@ -86,9 +88,7 @@ class ProfileController extends Controller
                         "price" => $drug->price,
                         "unit_type" => $drug->unit_type,
                         "userHasRate" => $drug->reviews->count(),
-    
                         "rate" => number_format( $drug->reviews->avg('rate'), 1 ),
-    
                         "isUserFavorite" => Favorite::where('user_id', auth()->user()->id)->where('favoritable_type', 'App\Models\Drug')->where('favoritable_id', $drug->id)->first(),
                     ];
                 })
@@ -105,9 +105,32 @@ class ProfileController extends Controller
                 ];
             });
 
+        // If user login is provider
+        if ( $user->hasRole('provider') ) {
+            
+            // resume
+            $resume = [
+                [ "name" => "Ulasan", "count" => $user->facility->reviews->count() ],
+                [ "name" => "Rating", "count" => number_format($user->facility->reviews->avg('rate'), 1) ],
+                [ "name" => "Difavoritkan", "count" => $user->facility->favorites->count() ],
+                [ "name" => "Layanan", "count" => $user->facility->services->count() ],
+                [ "name" => "Obatan", "count" => $user->facility->drugs->count() ],
+            ];
+            
+            // generate dashboard
+            $providerDashboard = [
+                "facility" => $user->facility,
+                "locations" => Location::all(),
+                "resume" => $resume
+            ];
+
+            // return $providerDashboard;
+        }
+
         return Inertia::render('Profile/Index', [
             "userFavorites" => $userFavorites,
-            "userActivities" => $userActivities
+            "userActivities" => $userActivities,
+            "providerDashboard" => @$providerDashboard
         ]);
     }
 
