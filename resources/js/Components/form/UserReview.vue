@@ -20,7 +20,7 @@
         </section>
 
         <!-- rating picker -->
-        <section class="flex justify-center gap-12 text-3xl text-yellow-400 mb-8">
+        <section class="flex justify-center gap-2 md:gap-12 text-3xl text-yellow-400 mb-8">
             <!-- solid star -->
             <template v-for="star in rate" :key="star">
                 <button :title="rateTitles[star - 1]" @click="rate = star"><i class="fa-solid fa-star"></i></button>

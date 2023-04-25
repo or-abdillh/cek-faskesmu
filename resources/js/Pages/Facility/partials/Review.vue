@@ -23,11 +23,15 @@
             </section>
         </section>
 
-        <p class="text-gray-700 mb-8">Menampilkan {{ props?.reviews?.length }} ulasan tentang {{ props?.facilityName }}</p>
+        <p class="text-gray-700 mb-8">Menampilkan {{ filteredItems?.length }} ulasan tentang {{ props?.facilityName }}</p>
+
+        <!-- rate filter -->
+        <RatePickerButtons @rate-picker:pick="filtering" @rate-picker:reset="filteredItems = props.reviews">
+        </RatePickerButtons>
 
         <!-- cards -->
         <section class="columns-1 md:columns-2 gap-2">
-            <template v-for="review in props.reviews" :key="review.id">
+            <template v-for="review in filteredItems" :key="review.id">
                 <ReviewCard class="break-inside-avoid mb-4 w-11/12" :review="review"></ReviewCard>
             </template>
         </section>
@@ -39,6 +43,7 @@
 import { ref } from 'vue'
 import ReviewCard from '@/Components/card/ReviewCard.vue'
 import AverageRateGenerate from '@/Components/base/AverageRateGenerate.vue'
+import RatePickerButtons from '@/Components/base/RatePickerButtons.vue'
 
 const props = defineProps({
     reviews: Array,
@@ -47,6 +52,9 @@ const props = defineProps({
 })
 
 const averageDetails = ref([])
+const filteredItems = ref(props.reviews)
+
+const filtering = rate => filteredItems.value = props.reviews?.filter(review => review?.rate === rate)
 
 for (let rate = 1; rate <= 5; rate++) {
     averageDetails.value.push(

@@ -61,7 +61,7 @@ const isFavorited = ref(props?.facility?.isUserFavorite ? true : false)
 const page = usePage()
 
 const form = useForm({
-    user_id: page.props.auth.user.id,
+    user_id: page.props?.auth?.user?.id ?? null,
     favoritable_id: props?.facility?.id,
     favoritable_type: 'App\\Models\\Facility',
     item: props.facility?.name

@@ -49,7 +49,7 @@ class HomeController extends Controller
                 "URL" => route('user.facility.detail', $facility->slug),
                 "rate" => number_format($facility->reviews->avg('rate'), 1),
                 "userHasRate" => $facility->reviews->count(),
-                "isUserFavorite" => Favorite::where('user_id', auth()->user()->id)->where('favoritable_type', 'App\Models\Facility')->where('favoritable_id', $facility->id)->first()
+                "isUserFavorite" => Favorite::where('user_id', @auth()->user()->id)->where('favoritable_type', 'App\Models\Facility')->where('favoritable_id', $facility->id)->first()
             ];
         });
 
