@@ -17,9 +17,10 @@
                 <template v-for="(item, index) in props.items" :key="item.id">
                     <tr class="bg-white border-b hover:bg-gray-50">
                         <td>{{ index + 1 }}</td>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">{{ item.name }}
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900">{{ item.name }}
                         </th>
-                        <td class="px-6 py-4">Rp{{ item.price.toLocaleString() }} /{{ item.unit_type }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">Rp{{ item.price.toLocaleString() }} /{{ item.unit_type }}
+                        </td>
                         <td class="px-6 py-4">{{ item.description }}</td>
                         <td class="px-6 py-4"><i class="fa-solid fa-star text-yellow-500"></i> {{ item.rate }}</td>
                         <td class="px-6 py-4"><i class="fa-solid fa-user-group text-gray-400"></i> {{ item.userHasRate }}

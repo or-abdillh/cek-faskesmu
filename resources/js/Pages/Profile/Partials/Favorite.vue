@@ -15,7 +15,7 @@
             </section>
 
             <!-- items -->
-            <section class="md:columns-2">
+            <section class="md:columns-3">
                 <!-- Facility -->
                 <template v-if="active === 'Faskes' || active === 'Semua'" v-for="facility in props.favorites?.facility"
                     :key="facility.id">

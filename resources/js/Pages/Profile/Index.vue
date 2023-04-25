@@ -4,28 +4,30 @@
             <!-- main -->
             <section class="flex flex-col md:flex-row gap-12 justify-between">
                 <!-- tabs -->
-                <section class="md:w-3/12">
+                <section class="duration-300" :class="isTabMinified ? 'w-1/12' : 'md:w-3/12'">
                     <section class="flex flex-col rounded-lg overflow-hidden bg-gray-50 border border-gray-200">
                         <!-- Provider dashboard -->
                         <button v-if="$page.props.auth.user.roles[0].name === 'provider'" @click="active = 'Dashboard'"
+                            title="Dashboard"
                             :class="{ 'bg-green-200 border-r-4 border-green-700': active === 'Dashboard' }"
-                            class="text-left py-4 pl-6 text-gray-700 duration-300 hover:bg-green-50"><i
-                                class="fa-solid fa-home w-5 mr-4"></i>
-                            Dashboard
+                            class="text-left py-4 pl-6 text-gray-700 duration-300 hover:bg-green-50">
+                            <i class="fa-solid fa-home w-5 mr-4"></i>
+                            <template v-if="!isTabMinified">Dashboard</template>
                         </button>
                         <!-- user tab -->
                         <template v-for="tab in tabs" :key="tab.id">
                             <button @click="active = tab.name"
                                 :class="{ 'bg-green-200 border-r-4 border-green-700': active === tab.name }"
-                                class="text-left py-4 pl-6 text-gray-700 duration-300 hover:bg-green-50"><i
-                                    :class="tab.icon" class="w-5 mr-4"></i>
-                                {{ tab.name }}</button>
+                                :title="tab.name" class="text-left py-4 pl-6 text-gray-700 duration-300 hover:bg-green-50">
+                                <i :class="tab.icon" class="w-5 mr-4"></i>
+                                <template v-if="!isTabMinified">{{ tab.name }}</template>
+                            </button>
                         </template>
                         <!-- logout -->
                         <Link class="text-left py-3 pl-6 text-gray-700 duration-300 hover:bg-green-50" href="/logout"
-                            method="post" as="button">
+                            title="Logout" method="post" as="button">
                         <i class="fa-solid fa-arrow-right-from-bracket w-5 mr-4"></i>
-                        Keluar Akun
+                        <template v-if="!isTabMinified">Keluar Akun</template>
                         </Link>
                     </section>
                 </section>
@@ -33,6 +35,9 @@
                 <section class="w-full">
                     <!-- view of tab -->
                     <section class="w-full border border-gray-200 rounded-lg bg-gray-50 p-8">
+                        <!-- minified toggler -->
+                        <button @click="isTabMinified = !isTabMinified" class="duration-300 mb-4 text-gray-700 text-2xl"><i
+                                :class="isTabMinified ? 'fa-bars' : 'fa-times'" class="fa-solid"></i></button>
                         <!-- provider dashboard -->
                         <ProviderDashboard v-if="active === 'Dashboard'" :dashboard="props.providerDashboard">
                         </ProviderDashboard>
@@ -63,6 +68,7 @@ import Activity from '@/Pages/Profile/Partials/Activity.vue'
 const { notify } = useNotification()
 const page = usePage()
 const active = ref('Akun')
+const isTabMinified = ref(true)
 
 const tabs = [
     { id: 0, name: 'Akun', icon: 'fa-solid fa-user-gear', component: Account },
