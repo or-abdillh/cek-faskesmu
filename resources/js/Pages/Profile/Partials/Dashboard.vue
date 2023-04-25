@@ -14,6 +14,9 @@
                     class="duration-300 border-b-2 px-3 pb-2">{{
                         tab.name }}</button>
             </template>
+            <!-- Homepage -->
+            <Link class="duration-300 border-b-2 px-3 pb-2 text-gray-500 border-gray-100"
+                :href="route('user.facility.detail', props.dashboard?.facility?.slug)">Beranda</Link>
         </section>
 
         <!-- tab view  -->
@@ -36,6 +39,7 @@
 <script setup>
 
 import { ref } from 'vue'
+import { Link } from '@inertiajs/vue3'
 import DashboardResume from '@/Pages/Profile/Partials/DashboardResume.vue'
 import DashboardProfile from '@/Pages/Profile/Partials/DashboardProfile.vue'
 import DashboardService from '@/Pages/Profile/Partials/DashboardService.vue'
