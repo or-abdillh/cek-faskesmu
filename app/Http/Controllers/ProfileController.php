@@ -122,8 +122,32 @@ class ProfileController extends Controller
                 "facility" => $user->facility,
                 "locations" => Location::all(),
                 "resume" => $resume,
-                "services" => $user->facility->services,
-                "drugs" => $user->facility->drugs
+                "services" => $user->facility->services->map(function($service) {
+                    return [
+                        "id" => $service->id,
+                        "name" => $service->name,
+                        "description" => $service->description,
+                        "price" => $service->price,
+                        "unit_type" => $service->unit_type,
+                        "created_at" => $service->created_at,
+                        "updated_at" => $service->updated_at,
+                        "userHasRate" => $service->reviews->count(),
+                        "rate" => number_format( $service->reviews->avg('rate'), 1 ),
+                    ];
+                }),
+                "drugs" => $user->facility->drugs->map(function($drug) {
+                    return [
+                        "id" => $drug->id,
+                        "name" => $drug->name,
+                        "description" => $drug->description,
+                        "price" => $drug->price,
+                        "unit_type" => $drug->unit_type,
+                        "created_at" => $drug->created_at,
+                        "updated_at" => $drug->updated_at,
+                        "userHasRate" => $drug->reviews->count(),
+                        "rate" => number_format( $drug->reviews->avg('rate'), 1 ),
+                    ];
+                })
             ];
 
             // return $providerDashboard;
