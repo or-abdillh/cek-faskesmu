@@ -10,6 +10,8 @@ class Drug extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function facility()
     {
         return $this->belongsTo(Facility::class);

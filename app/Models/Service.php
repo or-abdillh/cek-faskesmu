@@ -9,6 +9,8 @@ class Service extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function reviews()
     {
         return $this->morphMany(Review::class, 'reviewable');

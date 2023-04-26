@@ -5,6 +5,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\FacilityController as UserFacilityController;
 use App\Http\Controllers\User\FavoriteController as UserFavoriteController;
 use App\Http\Controllers\User\ReviewController as UserReviewController;
+use App\Http\Controllers\User\ServiceController as UserServiceController;
+use App\Http\Controllers\User\DrugController as UserDrugController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,6 +35,12 @@ Route::group([ 'middleware' => ['auth', 'role:user|provider'] ], function() {
     // Facility
     Route::get('/facility/{slug}', [UserFacilityController::class, 'detail'])->name('user.facility.detail');
     Route::patch('/facility/{id}', [UserFacilityController::class, 'update'])->name('user.facility.update');
+
+    // Service
+    Route::post('/service', [UserServiceController::class, 'store'])->name('user.service.store');
+
+    // Drug
+    Route::post('/drug', [UserDrugController::class, 'store'])->name('user.drug.store');
 
     // Favorite and Review
     Route::group(["as" => "user."], function() {

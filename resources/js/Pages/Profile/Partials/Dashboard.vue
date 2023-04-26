@@ -27,9 +27,11 @@
             <DashboardProfile :locations="props.dashboard?.locations" :profile="props.dashboard?.facility"
                 v-if="active === 'Profile'"></DashboardProfile>
             <!-- Services -->
-            <DashboardService :services="props.dashboard?.services" v-if="active === 'Layanan'"></DashboardService>
+            <DashboardService :services="props.dashboard?.services" :facility="props.dashboard?.facility"
+                v-if="active === 'Layanan'"></DashboardService>
             <!-- Drugs -->
-            <DashboardDrug :drugs="props.dashboard?.drugs" v-if="active === 'Obatan'"></DashboardDrug>
+            <DashboardDrug :drugs="props.dashboard?.drugs" :facility="props.dashboard?.facility" v-if="active === 'Obatan'">
+            </DashboardDrug>
             <!-- Reset -->
             <DashboardReset v-if="active === 'Reset'"></DashboardReset>
         </main>
