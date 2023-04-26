@@ -38,4 +38,12 @@ class ServiceController extends Controller
         activity()->log('Melakukan perubahan data layanan ' . $service->name);
         $service->update($request->all());
     }
+
+    public function destroy($id)
+    {
+        $service = Service::findOrFail($id);
+
+        activity()->log('Mengahapus data layanan ' . $service->name);
+        $service->delete();
+    }
 }

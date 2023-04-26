@@ -38,7 +38,8 @@
                             <section class="flex gap-3">
                                 <button @click="update(item)" title="Edit Data"><i
                                         class="fa-solid fa-edit text-blue-500"></i></button>
-                                <button title="Hapus Data"><i class="fa-solid fa-trash text-red-500"></i></button>
+                                <button @click="destroy(item)" title="Hapus Data"><i
+                                        class="fa-solid fa-trash text-red-500"></i></button>
                             </section>
                         </td>
                     </tr>
@@ -57,9 +58,11 @@ const props = defineProps({
     items: Array
 })
 
-const emits = defineEmits(['table:update-action'])
+const emits = defineEmits(['table:update-action', 'table:delete-action'])
 
 const update = item => emits('table:update-action', item)
+
+const destroy = item => emits('table:delete-action', item)
 
 onMounted(() => {
 

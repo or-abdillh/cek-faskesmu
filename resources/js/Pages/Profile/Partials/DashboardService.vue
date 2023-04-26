@@ -7,29 +7,64 @@
                 Layanan</button>
         </section>
         <!-- table -->
-        <ServiceTable @table:update-action="update" :items="props.services"></ServiceTable>
+        <ServiceTable @table:update-action="update" @table:delete-action="destroy" :items="props.services"></ServiceTable>
     </section>
-    <!-- modal -->
+
+    <!-- modal create -->
     <Modal :show="showModal">
         <ServiceForm @modal:close="showModal = false" :item="item" :facility="props.facility" label="Layanan"
             :units="['Jam', 'Sesi', 'Hari']" :is-create="true" :url="url" :method="method">
         </ServiceForm>
+    </Modal>
+
+    <!-- modal delete -->
+    <Modal :show="showModalDelete">
+        <section class="p-6">
+            <!-- header -->
+            <section class="text-gray-700 flex justify-between mb-8">
+                <button @click="showModalDelete = false"><i class="fa-solid fa-times"></i></button>
+                <h1 class="text-xl">{{ deletedItem.name }}, yakin ingin dihapus ?</h1>
+                <span></span>
+            </section>
+
+            <!-- form -->
+            <section>
+                <p class="text-gray-700 mb-4">Tindakan ini akan menghapus semua data yang terkait dengan item ini secara
+                    permanen
+                </p>
+                <!-- cta -->
+                <form @submit.prevent="submit" class="flex justify-end">
+                    <button :disabled="form.processing"
+                        class="bg-red-500 px-5 py-2 rounded-xl text-gray-100 disabled:bg-opacity-50 duration-300">
+                        <i v-if="form.processing" class="fa-solid fa-spinner spinner"></i>
+                        <template v-else>Hapus</template>
+                    </button>
+                </form>
+            </section>
+        </section>
     </Modal>
 </template>
 
 <script setup>
 
 import { ref } from 'vue'
+import { useForm } from '@inertiajs/vue3'
+import { useNotification } from '@kyvg/vue3-notification'
 import Modal from '@/Components/Modal.vue'
 import ServiceTable from '@/Pages/Profile/Partials/ServiceDrugTable.vue'
 import ServiceForm from '@/Components/form/ServiceDrugForm.vue'
 
 const showModal = ref(false)
+const showModalDelete = ref(false)
 
 const item = ref(null)
 const isCreate = ref(true)
 const method = ref('post')
 const url = ref(route('user.service.store'))
+const deletedItem = ref(null)
+
+const form = useForm({})
+const { notify } = useNotification()
 
 const update = data => {
     item.value = data
@@ -39,12 +74,32 @@ const update = data => {
     showModal.value = true
 }
 
+const destroy = data => {
+    showModalDelete.value = true
+    deletedItem.value = data
+}
+
 const close = () => {
     item.value = null
     isCreate.value = true
     method.value = 'post'
     url.value = route('user.service.store')
     showModal.value = true
+}
+
+const submit = () => {
+    form.delete(route('user.service.destroy', deletedItem.value.id), {
+        onSuccess() {
+            showModalDelete.value = false
+            notify({
+                title: 'Pemberitahuan',
+                text: 'Sukses menghapus item layanan dari database'
+            })
+        },
+        onError(err) {
+            console.log(err)
+        }
+    })
 }
 
 const props = defineProps({
