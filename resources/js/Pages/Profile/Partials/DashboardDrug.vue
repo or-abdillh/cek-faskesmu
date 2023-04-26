@@ -11,9 +11,8 @@
     </section>
 
     <!-- modal -->
-    <Modal :show="showModalCreate">
-        <!-- Create -->
-        <DrugForm @modal:close="showModalCreate = false" label="Obatan"
+    <Modal :show="showModal">
+        <DrugForm @modal:close="showModal = false" label="Obatan"
             :units="['Kapsul', 'Kaplet', 'Tablet', 'Botol', 'Suntikan', 'Biji']" :is-create="isCreate" :item="item"
             :url="url" :facility="props.facility" :method="method"></DrugForm>
     </Modal>
@@ -26,7 +25,7 @@ import Modal from '@/Components/Modal.vue'
 import DrugTable from '@/Pages/Profile/Partials/ServiceDrugTable.vue'
 import DrugForm from '@/Components/form/ServiceDrugForm.vue'
 
-const showModalCreate = ref(false)
+const showModal = ref(false)
 
 const item = ref(null)
 const isCreate = ref(true)
@@ -38,7 +37,7 @@ const update = data => {
     isCreate.value = false
     method.value = 'patch'
     url.value = route('user.drug.update', data.id);
-    showModalCreate.value = true
+    showModal.value = true
 }
 
 const close = () => {
@@ -46,7 +45,7 @@ const close = () => {
     isCreate.value = true
     method.value = 'post'
     url.value = route('user.drug.store')
-    showModalCreate.value = true
+    showModal.value = true
 }
 
 const props = defineProps({

@@ -35,7 +35,7 @@ class DrugController extends Controller
             'description' => 'required'
         ]);
 
-        activity()->log('Mengubah data obatan ' . $drug->name);
+        activity()->log('Melakukan perubahan data obatan ' . $drug->name);
         $drug->update($request->all());
     }
 }

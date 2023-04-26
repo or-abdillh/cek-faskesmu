@@ -38,6 +38,7 @@ Route::group([ 'middleware' => ['auth', 'role:user|provider'] ], function() {
 
     // Service
     Route::post('/service', [UserServiceController::class, 'store'])->name('user.service.store');
+    Route::patch('/service/{id}', [UserServiceController::class, 'update'])->name('user.service.update');
 
     // Drug
     Route::post('/drug', [UserDrugController::class, 'store'])->name('user.drug.store');
