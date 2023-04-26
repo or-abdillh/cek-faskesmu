@@ -38,4 +38,12 @@ class DrugController extends Controller
         activity()->log('Melakukan perubahan data obatan ' . $drug->name);
         $drug->update($request->all());
     }
+
+    public function destroy($id)
+    {
+        $drug = Drug::findOrFail($id);
+
+        activity()->log('Menghapus data obatan ' . $drug->name);
+        $drug->delete();
+    }
 }
