@@ -22,4 +22,20 @@ class DrugController extends Controller
         Drug::create($request->all());
         activity()->log('Menambahkan obatan baru');
     }
+
+    public function update(Request $request, $id)
+    {
+        $drug = Drug::findOrFail($id);
+
+        $request->validate([
+            'facility_id' => 'required|numeric',
+            'name' => 'required',
+            'price' => 'required|numeric',
+            'unit_type' => 'required',
+            'description' => 'required'
+        ]);
+
+        activity()->log('Mengubah data obatan ' . $drug->name);
+        $drug->update($request->all());
+    }
 }

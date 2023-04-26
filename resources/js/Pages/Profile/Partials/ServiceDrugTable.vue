@@ -1,7 +1,7 @@
 <template>
     <section class="relative overflow-x-auto">
         <table id="table" class="w-full text-sm text-left text-gray-500">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-200">
                 <tr>
                     <th scope="col" class="px-6 py-3">No</th>
                     <th scope="col" class="px-6 py-3">Nama</th>
@@ -11,6 +11,7 @@
                     <th scope="col" class="px-6 py-3">Ulasan</th>
                     <th scope="col" class="px-6 py-3">Dibuat Pada</th>
                     <th scope="col" class="px-6 py-3">Diubah Pada</th>
+                    <th scope="col" class="px-6 py-3">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,6 +34,13 @@
                             {{ new Date(item.updated_at).toLocaleDateString() }}
                             {{ new Date(item.updated_at).toLocaleTimeString() }}
                         </td>
+                        <td class="px-6 py-4">
+                            <section class="flex gap-3">
+                                <button @click="update(item)" title="Edit Data"><i
+                                        class="fa-solid fa-edit text-blue-500"></i></button>
+                                <button title="Hapus Data"><i class="fa-solid fa-trash text-red-500"></i></button>
+                            </section>
+                        </td>
                     </tr>
                 </template>
             </tbody>
@@ -48,6 +56,10 @@ import DataTable from 'datatables.net-dt'
 const props = defineProps({
     items: Array
 })
+
+const emits = defineEmits(['table:update-action'])
+
+const update = item => emits('table:update-action', item)
 
 onMounted(() => {
 

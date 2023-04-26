@@ -41,6 +41,7 @@ Route::group([ 'middleware' => ['auth', 'role:user|provider'] ], function() {
 
     // Drug
     Route::post('/drug', [UserDrugController::class, 'store'])->name('user.drug.store');
+    Route::patch('/drug/{id}', [UserDrugController::class, 'update'])->name('user.drug.update');
 
     // Favorite and Review
     Route::group(["as" => "user."], function() {
