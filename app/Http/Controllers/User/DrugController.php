@@ -46,4 +46,11 @@ class DrugController extends Controller
         activity()->log('Menghapus data obatan ' . $drug->name);
         $drug->delete();
     }
+
+    public function reset()
+    {
+        Drug::truncate();
+
+        activity()->log('Melakukan reset seluruh data obatan');
+    }
 }

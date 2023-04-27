@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Facility;
 use App\Models\Favorite;
 use App\Models\Review;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class FacilityController extends Controller
@@ -122,6 +124,26 @@ class FacilityController extends Controller
         $facility->update($request->all());
 
         activity()->log('Melakukan perubahan pada fasilitas');
+    }
+
+    public function reset()
+    {
+        // Get current user for the facility
+        $user = User::find(auth()->user()->id);
+        
+        // delete the facility
+        $facility = Facility::findOrFail($user->facility->id);
+
+        activity()->log('Menghapus permanen fasilitas kesehatan ' . $facility->name);
+
+        $facility->delete();
+
+        // change user role
+        $user->removeRole('provider');
+        $user->assignRole('user');
+        $user->save();
+
+        activity()->log('Status akun berubah menjadi pengguna biasa');
     }
 
     public function store(Request $request)

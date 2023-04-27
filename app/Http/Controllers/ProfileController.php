@@ -40,71 +40,104 @@ class ProfileController extends Controller
             "facility" => Favorite::where('user_id', auth()->user()->id)
                 ->where('favoritable_type', 'App\\Models\\Facility')
                 ->get()
-                ->map(function($favorite) {
-                    $facility = Facility::find($favorite->favoritable_id);
-
-                    return [
-                        "id" => $facility->id,
-                        "name" => $facility->name,
-                        "category" => $facility->category,
-                        "address" => $facility->address,
-                        "longitude" => $facility->longitude,
-                        "latitude" => $facility->latitude,
-                        "location" => $facility->location->city,
-                        "URL" => route('user.facility.detail', $facility->slug),
-                        "rate" => number_format($facility->reviews->avg('rate'), 1),
-                        "userHasRate" => $facility->reviews->count(),
-                        "isUserFavorite" => Favorite::where('user_id', auth()->user()->id)->where('favoritable_type', 'App\Models\Facility')->where('favoritable_id', $facility->id)->first()
-                    ];
-                }),
+                ->when(
+                    function($collection) {
+                        return $collection->isNotEmpty();
+                    },
+                    function($collection) {
+                        return $collection->map(function($favorite) {
+                            $facility = Facility::find($favorite->favoritable_id);
+        
+                            return [
+                                "id" => @$facility->id,
+                                "name" => @$facility->name,
+                                "category" => @$facility->category,
+                                "address" => @$facility->address,
+                                "longitude" => @$facility->longitude,
+                                "latitude" => @$facility->latitude,
+                                "location" => @$facility->location->city,
+                                "URL" => route('user.facility.detail', @$facility->slug),
+                                "rate" => number_format(@$facility->reviews->avg('rate'), 1),
+                                "userHasRate" => @$facility->reviews->count(),
+                                "isUserFavorite" => Favorite::where('user_id', auth()->user()->id)->where('favoritable_type', 'App\Models\Facility')->where('favoritable_id', $facility->id)->first()
+                            ];
+                        });
+                    }
+                ),
 
             "service" => Favorite::where('user_id', auth()->user()->id)
                 ->where('favoritable_type', 'App\\Models\\Service')
                 ->get()
-                ->map(function($favorite) {
-                    $service = Service::find($favorite->favoritable_id);
-                    return [
-                        "id" => $service->id,
-                        "name" => $service->name,
-                        "description" => $service->description,
-                        "price" => $service->price,
-                        "unit_type" => $service->unit_type,
-                        "userHasRate" => $service->reviews->count(),
-                        "rate" => number_format( $service->reviews->avg('rate'), 1 ),
-                        "isUserFavorite" => Favorite::where('user_id', auth()->user()->id)->where('favoritable_type', 'App\Models\Service')->where('favoritable_id', $service->id)->first(),
-                    ];
-                }),
+                ->when(
+                    function($collection) {
+                        return $collection->isNotEmpty();
+                    },
+                    function($collection) {
+                        return $collection->map(function($favorite) {
+                            $service = Service::find($favorite->favoritable_id);
+                            
+                            if ($service) {
+                                return [
+                                    "id" => @$service->id,
+                                    "name" => @$service->name,
+                                    "description" => @$service->description,
+                                    "price" => @$service->price,
+                                    "unit_type" => @$service->unit_type,
+                                    "userHasRate" => @$service->reviews->count(),
+                                    "rate" => number_format( @$service->reviews->avg('rate'), 1 ),
+                                    "isUserFavorite" => Favorite::where('user_id', auth()->user()->id)->where('favoritable_type', 'App\Models\Service')->where('favoritable_id', @$service->id)->first(),
+                                ];
+                            }
+                        });
+                    }
+                ),
 
             "drug" => Favorite::where('user_id', auth()->user()->id)
                 ->where('favoritable_type', 'App\\Models\\Drug')
                 ->get()
-                ->map(function($favorite) {
-                    $drug = Drug::find($favorite->favoritable_id);
-
-                    return [
-                        "id" => $drug->id,
-                        "name" => $drug->name,
-                        "description" => $drug->description,
-                        "price" => $drug->price,
-                        "unit_type" => $drug->unit_type,
-                        "userHasRate" => $drug->reviews->count(),
-                        "rate" => number_format( $drug->reviews->avg('rate'), 1 ),
-                        "isUserFavorite" => Favorite::where('user_id', auth()->user()->id)->where('favoritable_type', 'App\Models\Drug')->where('favoritable_id', $drug->id)->first(),
-                    ];
-                })
+                ->when(
+                    function($collection) {
+                        return $collection->isNotEmpty();
+                    },
+                    function($collection) {
+                        return $collection->map(function($favorite) {
+                            $drug = Drug::find($favorite->favoritable_id);
+        
+                            if ($drug) {
+                                return [
+                                    "id" => @$drug->id,
+                                    "name" => @$drug->name,
+                                    "description" => @$drug->description,
+                                    "price" => @$drug->price,
+                                    "unit_type" => @$drug->unit_type,
+                                    "userHasRate" => @$drug->reviews->count(),
+                                    "rate" => number_format( @$drug->reviews->avg('rate'), 1 ),
+                                    "isUserFavorite" => Favorite::where('user_id', auth()->user()->id)->where('favoritable_type', 'App\Models\Drug')->where('favoritable_id', @$drug->id)->first(),
+                                ];
+                            }
+                        });
+                    }
+                )
         ];
 
         $userActivities = Activity::whereCauserId(auth()->user()->id)
             ->latest()
             ->get()
-            ->map(function($activity) {
-                return [
-                    "id" => $activity->id,
-                    "description" => $activity->description,
-                    "timestamp" => $activity->created_at->diffForHumans()
-                ];
-            });
-
+            ->when(
+                function($collection) {
+                    return $collection->isNotEmpty();
+                }, 
+                function($collection) {
+                    return $collection->map(function($activity) {
+                        return [
+                            "id" => $activity->id,
+                            "description" => $activity->description,
+                            "timestamp" => $activity->created_at->diffForHumans()
+                        ];
+                    });
+                }
+            );
+            
         // If user login is provider
         if ( $user->hasRole('provider') ) {
             
@@ -122,32 +155,48 @@ class ProfileController extends Controller
                 "facility" => $user->facility,
                 "locations" => Location::all(),
                 "resume" => $resume,
-                "services" => $user->facility->services->map(function($service) {
-                    return [
-                        "id" => $service->id,
-                        "name" => $service->name,
-                        "description" => $service->description,
-                        "price" => $service->price,
-                        "unit_type" => $service->unit_type,
-                        "created_at" => $service->created_at,
-                        "updated_at" => $service->updated_at,
-                        "userHasRate" => $service->reviews->count(),
-                        "rate" => number_format( $service->reviews->avg('rate'), 1 ),
-                    ];
-                }),
-                "drugs" => $user->facility->drugs->map(function($drug) {
-                    return [
-                        "id" => $drug->id,
-                        "name" => $drug->name,
-                        "description" => $drug->description,
-                        "price" => $drug->price,
-                        "unit_type" => $drug->unit_type,
-                        "created_at" => $drug->created_at,
-                        "updated_at" => $drug->updated_at,
-                        "userHasRate" => $drug->reviews->count(),
-                        "rate" => number_format( $drug->reviews->avg('rate'), 1 ),
-                    ];
-                })
+                "services" => $user->facility->services->when(
+                    function($collection) {
+                        return $collection->isNotEMpty();
+                    },
+                    function($collection) {
+                        return $collection->map(function($service) {
+                            return [
+                                "id" => @$service->id,
+                                "name" => @$service->name,
+                                "description" => @$service->description,
+                                "price" => @$service->price,
+                                "unit_type" => @$service->unit_type,
+                                "created_at" => @$service->created_at,
+                                "updated_at" => @$service->updated_at,
+                                "userHasRate" => @$service->reviews->count(),
+                                "rate" => number_format( @$service->reviews->avg('rate'), 1 ),
+                            ];
+                        });
+                    }
+                )
+                ,
+                "drugs" => $user->facility->drugs->when(
+                    function($collection) {
+                        return $collection->isNotEmpty();
+                    },
+                    function($collection) {
+                        return $collection->map(function($drug) {
+                            return [
+                                "id" => @$drug->id,
+                                "name" => @$drug->name,
+                                "description" => @$drug->description,
+                                "price" => @$drug->price,
+                                "unit_type" => @$drug->unit_type,
+                                "created_at" => @$drug->created_at,
+                                "updated_at" => @$drug->updated_at,
+                                "userHasRate" => @$drug->reviews->count(),
+                                "rate" => number_format( @$drug->reviews->avg('rate'), 1 ),
+                            ];
+                        });
+                    }
+                )
+                
             ];
 
             // return $providerDashboard;

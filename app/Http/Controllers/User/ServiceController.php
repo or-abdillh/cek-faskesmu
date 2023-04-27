@@ -46,4 +46,11 @@ class ServiceController extends Controller
         activity()->log('Mengahapus data layanan ' . $service->name);
         $service->delete();
     }
+
+    public function reset()
+    {
+        Service::truncate();
+
+        activity()->log('Melakukan reset seluruh data layanan');
+    }
 }

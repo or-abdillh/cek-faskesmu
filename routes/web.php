@@ -40,11 +40,16 @@ Route::group([ 'middleware' => ['auth', 'role:user|provider'] ], function() {
     Route::post('/service', [UserServiceController::class, 'store'])->name('user.service.store');
     Route::patch('/service/{id}', [UserServiceController::class, 'update'])->name('user.service.update');
     Route::delete('/service/{id}', [UserServiceController::class, 'destroy'])->name('user.service.destroy');
-
+    
     // Drug
     Route::post('/drug', [UserDrugController::class, 'store'])->name('user.drug.store');
     Route::patch('/drug/{id}', [UserDrugController::class, 'update'])->name('user.drug.update');
     Route::delete('/drug/{id}', [UserDrugController::class, 'destroy'])->name('user.drug.destroy');
+    
+    // Reset
+    Route::delete('/reset/facility', [UserFacilityController::class, 'reset'])->name('user.reset.facility');
+    Route::delete('/reset/drug', [UserDrugController::class, 'reset'])->name('user.reset.drug');
+    Route::delete('/reset/service', [UserServiceController::class, 'reset'])->name('user.reset.service');
 
     // Favorite and Review
     Route::group(["as" => "user."], function() {

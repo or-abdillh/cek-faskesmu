@@ -17,7 +17,7 @@
                 menjadi pengguna biasa.</p>
         </section>
         <span>
-            <button class="btn bg-red-500 text-gray-100">Hapus Fasilitas</button>
+            <button @click="reset(route('user.reset.facility'))" class="btn bg-red-500 text-gray-100">Hapus Fasilitas</button>
         </span>
     </section>
 
@@ -33,8 +33,70 @@
             </p>
         </section>
         <span class="flex flex-col gap-2">
-            <button class="btn bg-red-500 text-gray-100">Reset Layanan</button>
-            <button class="btn bg-red-500 text-gray-100">Reset Obatan</button>
+            <button @click="reset(route('user.reset.service'))" class="btn bg-red-500 text-gray-100">Reset Layanan</button>
+            <button @click="reset(route('user.reset.drug'))" class="btn bg-red-500 text-gray-100">Reset Obatan</button>
         </span>
     </section>
+
+    <!-- modal -->
+    <Modal :show="showModal">
+        <section class="p-6">
+            <!-- header -->
+            <section class="text-gray-700 flex justify-between mb-8">
+                <button @click="showModal = false"><i class="fa-solid fa-times"></i></button>
+                <h1 class="text-xl">Yakin melakukan reset data ?</h1>
+                <span></span>
+            </section>
+
+            <section>
+                <p class="text-gray-700 mb-4">
+                    Tindakan ini bersifat menghapus data secara permanen dan tidak memungkinkan adanya pengembalian data
+                </p>
+
+                <!-- form -->
+                <form class="flex justify-end" @submit.prevent="submit">
+                    <button :disabled="form.processing"
+                        class="bg-red-500 px-5 py-2 rounded-xl text-gray-100 disabled:bg-opacity-50 duration-300">
+                        <i v-if="form.processing" class="fa-solid fa-spinner spinner"></i>
+                        <template v-else>Reset</template>
+                    </button>
+                </form>
+            </section>
+        </section>
+    </Modal>
 </template>
+
+<script setup>
+
+import { ref } from 'vue'
+import { useForm } from '@inertiajs/vue3'
+import { useNotification } from '@kyvg/vue3-notification'
+import Modal from '@/Components/Modal.vue'
+
+const { notify } = useNotification()
+const showModal = ref(false)
+const urlRef = ref(null)
+const form = useForm({})
+
+const reset = url => {
+    showModal.value = true
+    urlRef.value = url
+}
+
+const submit = () => {
+    // console.log(urlRef.value)
+    form.delete(urlRef.value, {
+        onSuccess() {
+            showModal.value = false
+            notify({
+                title: 'Pemberitahuan',
+                text: 'Sukses melakukan reset data'
+            })
+        },
+        onError(err) {
+            console.log(err)
+        }
+    })
+}
+
+</script>
