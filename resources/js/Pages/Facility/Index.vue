@@ -8,8 +8,8 @@
                 <!-- keyword -->
                 <section class="pl-6 w-7/12 md:border-r border-gray-400 flex items-center">
                     <i class="fa-solid fa-search text-gray-700"></i>
-                    <input @input="filtering" v-model="search.keyword" class="w-full p-4 bg-gray-100 outline-none"
-                        type="search" placeholder="Nama faskes">
+                    <input v-model="search.keyword" class="w-full p-4 bg-gray-100 outline-none" type="search"
+                        placeholder="Nama faskes">
                 </section>
                 <section class="flex md:w-5/12">
                     <!-- category -->
@@ -35,14 +35,14 @@
                         </select>
                     </section>
                 </section>
+                <PrimaryButton @click="filtering">Cari</PrimaryButton>
             </section>
         </section>
 
         <!-- search results -->
         <section class="md:p-16 p-8">
             <section class="flex justify-between gap-6 mb-6">
-                <p class="text-gray-600 text-lg">Hasil pencarian <strong class="text-gray-900">"{{ search.keyword ?
-                    search.keyword : 'Semua' }}"</strong></p>
+                <p class="text-gray-600 text-lg" ref="searchDetail">Hasil pencarian untuk </p>
                 <p class="text-gray-600">Menampilkan {{ filteredFacilities.length }} fasilitas</p>
             </section>
 
@@ -66,6 +66,7 @@
 import { onMounted, reactive, ref } from 'vue'
 import BaseLayout from '@/Layouts/BaseLayout.vue'
 import FacilityCard from '@/Components/card/FacilityCard.vue'
+import PrimaryButton from '@/Components/PrimaryButton.vue'
 
 const props = defineProps({
     facilities: {
@@ -86,11 +87,30 @@ const search = reactive({
     location: 'all'
 })
 
+const searchDetail = ref(null)
+
 const filteredFacilities = ref(props.facilities)
 
 const filtering = () => {
     filteredFacilities.value = props.facilities.filter(facility => {
-        if (facility.name.toLowerCase().includes(search.keyword.toLowerCase())) return facility
+        if (search.keyword.length > 0) {
+            if (facility.name.toLowerCase().includes(search.keyword.toLowerCase())) {
+                // Category and Location
+                if (search.category === 'all' && search.location === 'all') return facility
+                else {
+                    if (search.category === 'all') {
+                        if (facility.location === search.location) return facility
+                    } else if (search.location === 'all') {
+                        if (facility.category === search.category) return facility
+                    } else {
+                        if (facility.location === search.location && facility.category === search.category) return facility
+                    }
+                }
+            }
+            searchDetail.value.innerHTML = `Hasil pencarian untuk <strong class="text-gray-900">"${search.keyword}"</strong>`
+        } else {
+            searchDetail.value.innerHTML = `Hasil pencarian untuk <strong class="text-gray-900">"Semua"</strong>`
+        }
     })
 }
 

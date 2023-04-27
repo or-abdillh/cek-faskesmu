@@ -33,7 +33,7 @@ class ProfileController extends Controller
         auth()->user()->last_login_at = $lastLoginAt;
 
         // user
-        $user = Auth::user();
+        $user = User::find(auth()->user()->id);
 
         // Get favorite items
         $userFavorites = [
