@@ -5,7 +5,8 @@
             <button class="text-gray-700" @click="emits('review-page:close')"><i class="fa-solid fa-arrow-left mr-2"></i>{{
                 props.item }}</button>
 
-            <button class="text-blue-700" @click="emits('review-page:show-modal')">Beri ulasan</button>
+            <button v-if="$page.props.auth?.user?.roles[0].name === 'user'" class=" text-blue-700"
+                @click="emits('review-page:show-modal')">Beri ulasan</button>
 
         </section>
 

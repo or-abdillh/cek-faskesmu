@@ -4,7 +4,9 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Service;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ServiceController extends Controller
 {
@@ -49,7 +51,16 @@ class ServiceController extends Controller
 
     public function reset()
     {
-        Service::truncate();
+        $user = User::find(auth()->user()->id);
+
+        $user->facility->services->when(
+            function($collection) { return $collection->isNotEmpty(); },
+            function($collection) {
+                $collection->map(function($col) {
+                    $col->delete();
+                });
+            }
+        );
 
         activity()->log('Melakukan reset seluruh data layanan');
     }

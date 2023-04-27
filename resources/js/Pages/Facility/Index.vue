@@ -51,7 +51,7 @@
                 <!-- cards -->
                 <section class="md:w-7/12 columns-2">
                     <template v-for="facility in filteredFacilities" :key="facility.id">
-                        <FacilityCard :facility="facility" class="mb-4"></FacilityCard>
+                        <FacilityCard :facility="facility" class="mb-4 break-inside-avoid"></FacilityCard>
                     </template>
                 </section>
                 <!-- map -->

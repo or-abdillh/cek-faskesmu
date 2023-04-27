@@ -12,7 +12,7 @@
                     <p>{{ props.facility?.description }}</p>
                 </section>
                 <!-- actions -->
-                <section class="w-full md:w-3/12 flex md:flex-col gap-3 text-gray-200 md:text-right">
+                <section v-if="$page.props.auth?.user?.roles[0].name === 'user'" class="w-full md:w-3/12 flex md:flex-col gap-3 text-gray-200 md:text-right">
                     <span><i class="fa-solid fa-star mr-2"></i>{{ props?.rateAverage }}</span>
                     <p class="cursor-pointer" @click="showModal = !showModal"><i class="fa-solid fa-edit mr-2"></i>Beri
                         ulasan</p>

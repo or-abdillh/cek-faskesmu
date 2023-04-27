@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Drug;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DrugController extends Controller
@@ -49,7 +50,16 @@ class DrugController extends Controller
 
     public function reset()
     {
-        Drug::truncate();
+        $user = User::find(auth()->user()->id);
+
+        $user->facility->drugs->when(
+            function($collection) { return $collection->isNotEmpty(); },
+            function($collection) {
+                $collection->map(function($col) {
+                    $col->delete();
+                });
+            }
+        );
 
         activity()->log('Melakukan reset seluruh data obatan');
     }
