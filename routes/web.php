@@ -35,6 +35,7 @@ Route::group([ 'middleware' => ['auth', 'role:user|provider'] ], function() {
     // Facility
     Route::get('/facility/{slug}', [UserFacilityController::class, 'detail'])->name('user.facility.detail');
     Route::patch('/facility/{id}', [UserFacilityController::class, 'update'])->name('user.facility.update');
+    Route::post('/facility', [UserFacilityController::class, 'store'])->name('user.facility.store');
 
     // Service
     Route::post('/service', [UserServiceController::class, 'store'])->name('user.service.store');

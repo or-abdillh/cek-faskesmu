@@ -42,7 +42,8 @@
                         <ProviderDashboard v-if="active === 'Dashboard'" :dashboard="props.providerDashboard">
                         </ProviderDashboard>
                         <!-- account -->
-                        <Account v-if="active === 'Akun'"></Account>
+                        <Account @account:create-facility="active = 'Dashboard'" :locations="props.locations"
+                            v-if="active === 'Akun'"></Account>
                         <!-- item favorite -->
                         <Favorite :favorites="props.userFavorites" v-if="active === 'Item Favorit'"></Favorite>
                         <!-- Account activity -->
@@ -67,7 +68,7 @@ import Activity from '@/Pages/Profile/Partials/Activity.vue'
 
 const { notify } = useNotification()
 const page = usePage()
-const active = ref('Akun')
+const active = ref(page.props.auth.user.roles[0].name === 'user' ? 'Akun' : 'Dashboard')
 const isTabMinified = ref(true)
 
 const tabs = [
@@ -79,7 +80,8 @@ const tabs = [
 const props = defineProps({
     userFavorites: Object,
     userActivities: Array,
-    providerDashboard: Object
+    providerDashboard: Object,
+    locations: Array
 })
 
 onMounted(() => {

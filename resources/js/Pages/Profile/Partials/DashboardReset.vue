@@ -17,7 +17,8 @@
                 menjadi pengguna biasa.</p>
         </section>
         <span>
-            <button @click="reset(route('user.reset.facility'))" class="btn bg-red-500 text-gray-100">Hapus Fasilitas</button>
+            <button @click="reset(route('user.reset.facility'), true)" class="btn bg-red-500 text-gray-100">Hapus
+                Fasilitas</button>
         </span>
     </section>
 
@@ -77,10 +78,12 @@ const { notify } = useNotification()
 const showModal = ref(false)
 const urlRef = ref(null)
 const form = useForm({})
+const isFacilityReset = ref(false)
 
-const reset = url => {
+const reset = (url, isFacility = false) => {
     showModal.value = true
     urlRef.value = url
+    isFacilityReset.value = isFacility
 }
 
 const submit = () => {
@@ -92,6 +95,8 @@ const submit = () => {
                 title: 'Pemberitahuan',
                 text: 'Sukses melakukan reset data'
             })
+
+            if (isFacilityReset.value) location.reload()
         },
         onError(err) {
             console.log(err)

@@ -117,8 +117,8 @@ class FacilityController extends Controller
             'address' => 'required',
             'phone_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/',
             'website' => 'url',
-            'longitude' => 'required|numeric|between:-180,180',
-            'latitude' => 'required|numeric|between:-180,180'
+            'longitude' => 'required|numeric|between:-360,360',
+            'latitude' => 'required|numeric|between:-360,360'
         ]);
 
         $facility->update($request->all());
@@ -144,10 +144,35 @@ class FacilityController extends Controller
         $user->save();
 
         activity()->log('Status akun berubah menjadi pengguna biasa');
+
     }
 
     public function store(Request $request)
     {
-        
+        $request->validate([
+            'name' => 'required',
+            'user_id' => 'numeric|required',
+            'location_id' => 'numeric|required',
+            'category' => 'required',
+            'description' => 'required',
+            'address' => 'required',
+            'phone_number' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/',
+            'longitude' => 'required|numeric|between:-360,360',
+            'latitude' => 'required|numeric|between:-360,360'
+        ]);
+
+        // Get current user for assign as a provider
+        $user = User::find($request->user_id);
+
+        // Create facility
+        Facility::create($request->all());
+        activity()->log('Membuat fasilitas kesehatan baru ' . $request->name);
+
+        // Assign role
+        $user->removeRole('user');
+        $user->assignRole('provider');
+        $user->save();
+
+        activity()->log('Status akun berubah menjadi provider dari ' . $request->name);
     }
 }

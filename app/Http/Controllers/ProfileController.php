@@ -137,7 +137,7 @@ class ProfileController extends Controller
                     });
                 }
             );
-            
+
         // If user login is provider
         if ( $user->hasRole('provider') ) {
             
@@ -205,7 +205,8 @@ class ProfileController extends Controller
         return Inertia::render('Profile/Index', [
             "userFavorites" => $userFavorites,
             "userActivities" => $userActivities,
-            "providerDashboard" => @$providerDashboard
+            "providerDashboard" => @$providerDashboard,
+            "locations" => Location::all()
         ]);
     }
 
