@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Drug;
 use App\Models\Facility;
 use App\Models\Favorite;
 use App\Models\Review;
+use App\Models\Service;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +23,7 @@ class FacilityController extends Controller
         $provider = $facility->user;
 
         $drugs = $facility->drugs
-            ->map(function($drug) {
+            ->map(function($drug) use ($facility) {
                 return [
                     "id" => $drug->id,
                     "name" => $drug->name,
@@ -29,6 +31,7 @@ class FacilityController extends Controller
                     "price" => $drug->price,
                     "unit_type" => $drug->unit_type,
                     "userHasRate" => $drug->reviews->count(),
+                    "priceCompareUrl" => route('user.facility.price-compare.drug', ['facility_slug' => $facility->slug, 'id' => $drug->id]),
 
                     "rate" => number_format( $drug->reviews->avg('rate'), 1 ),
 
@@ -50,7 +53,7 @@ class FacilityController extends Controller
             });
 
         $services = $facility->services
-            ->map(function($service) {
+            ->map(function($service) use ($facility) {
                 return [
                     "id" => $service->id,
                     "name" => $service->name,
@@ -58,6 +61,7 @@ class FacilityController extends Controller
                     "price" => $service->price,
                     "unit_type" => $service->unit_type,
                     "userHasRate" => $service->reviews->count(),
+                    "priceCompareUrl" => route('user.facility.price-compare.service', ['facility_slug' => $facility->slug, 'id' => $service->id]),
 
                     "rate" => number_format( $service->reviews->avg('rate'), 1 ),
                     
@@ -174,5 +178,57 @@ class FacilityController extends Controller
         $user->save();
 
         activity()->log('Status akun berubah menjadi provider dari ' . $request->name);
+    }
+
+    public function serviceCompare($facilitySlug, $id)
+    {
+        // Get the facility
+        $facility = Facility::where('slug', $facilitySlug)->first();
+
+        // Get the service 
+        $service = Service::findOrFail($id);
+
+        $compares = Service::where('name', 'LIKE', '%' . $service->name .'%')
+            ->whereHas('facility', function($query) use ($facility) {
+                $query->where('location_id', $facility->location_id)
+                    ->whereNot('facility_id', $facility->id);
+            })
+            ->get()
+            ->map(function($compare) {
+                return [
+                    "id" => $compare->id,
+                    "name" => $compare->name,
+                    "price" => $compare->price,
+                    "unit_type" => $compare->unit_type,
+                    "userHasRate" => $compare->reviews->count(),
+                    "rate" => number_format( $compare->reviews->avg('rate'), 1 ),
+                    "facilityUrl" => route('user.facility.detail', $compare->facility->slug)
+                ];
+            });
+
+        return Inertia::render('Facility/PriceCompare', [
+            "item" => [
+                "id" => $service->id,
+                "name" => $service->name,
+                "description" => $service->description,
+                "price" => $service->price,
+                "unit_type" => $service->unit_type,
+                "userHasRate" => $service->reviews->count(),
+                "rate" => number_format( $service->reviews->avg('rate'), 1 ),
+                "isUserFavorite" => Favorite::where('user_id', auth()->user()->id)->where('favoritable_type', 'App\Models\Service')->where('favoritable_id', $service->id)->first(),
+            ],
+            "compares" => $compares
+        ]);
+    }
+
+    public function drugCompare($facilitySlug, $id)
+    {
+        // Get the facility
+        $facility = Facility::where('slug', $facilitySlug)->first();
+
+        // Get the service 
+        $service = Drug::findOrFail($id);
+
+        return Inertia::render('Facility/PriceCompare');
     }
 }

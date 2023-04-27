@@ -52,6 +52,10 @@ Route::group([ 'middleware' => ['auth', 'role:user|provider'] ], function() {
     Route::delete('/reset/drug', [UserDrugController::class, 'reset'])->name('user.reset.drug');
     Route::delete('/reset/service', [UserServiceController::class, 'reset'])->name('user.reset.service');
 
+    // Price comparison
+    Route::get('/facility/{facility_slug}/price-compare/service/{id}', [UserFacilityController::class, 'serviceCompare'])->name('user.facility.price-compare.service');
+    Route::get('/facility/{facility_slug}/price-compare/drug/{id}', [UserFacilityController::class, 'drugCompare'])->name('user.facility.price-compare.drug');
+
     // Favorite and Review
     Route::group(["as" => "user."], function() {
 

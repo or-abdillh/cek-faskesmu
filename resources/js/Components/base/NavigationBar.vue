@@ -51,8 +51,6 @@ const showSideBar = ref(false)
 const links = [
     { path: '/', title: 'Beranda' },
     { path: '/facility', title: 'Fasilitas' },
-    { path: '/', title: 'Layanan' },
-    { path: '/', title: 'Obat' },
     { path: '/', title: 'Tentang Kami' },
 ]
 

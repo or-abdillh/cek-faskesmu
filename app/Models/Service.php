@@ -15,4 +15,9 @@ class Service extends Model
     {
         return $this->morphMany(Review::class, 'reviewable');
     }
+
+    public function facility()
+    {
+        return $this->belongsTo(Facility::class);
+    }
 }

@@ -51,9 +51,9 @@
                 </h2>
             </section>
             <!-- cta -->
-            <section>
+            <section v-if="props.useCTA">
                 <Link class="block px-4 py-2 bg-green-800 text-center rounded-xl text-lg text-gray-100"
-                    :href="props.facility?.URL">Bandingkan Harga
+                    :href="props.data?.priceCompareUrl">Bandingkan Harga
                 </Link>
             </section>
         </section>
@@ -74,6 +74,10 @@ const props = defineProps({
     data: Object,
     type: String,
     useReview: {
+        type: Boolean,
+        default: true
+    },
+    useCTA: {
         type: Boolean,
         default: true
     }
