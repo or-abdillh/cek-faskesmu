@@ -16,12 +16,11 @@ class LocationsSeeder extends Seeder
         //
         $provinces = ['Kalimantan Selatan'];
         $cities = [
-            'Banjarmasin', 'Banjarbaru', 'Marabahan', 'Balangan', 'Hulu Sungai Utara'
+            'Banjarmasin', 'Banjarbaru', 'Banjar', 'Marabahan', 'Martapura'
         ];
 
         foreach($provinces as $province) {
             foreach($cities as $city) {
-
                 Location::create([
                     'city' => $city,
                     'province' => $province

@@ -93,20 +93,21 @@ const filteredFacilities = ref(props.facilities)
 
 const filtering = () => {
     filteredFacilities.value = props.facilities.filter(facility => {
-        if (search.keyword.length > 0) {
-            if (facility.name.toLowerCase().includes(search.keyword.toLowerCase())) {
-                // Category and Location
-                if (search.category === 'all' && search.location === 'all') return facility
-                else {
-                    if (search.category === 'all') {
-                        if (facility.location === search.location) return facility
-                    } else if (search.location === 'all') {
-                        if (facility.category === search.category) return facility
-                    } else {
-                        if (facility.location === search.location && facility.category === search.category) return facility
-                    }
+        if (facility.name.toLowerCase().includes(search.keyword.toLowerCase())) {
+            // Category and Location
+            if (search.category === 'all' && search.location === 'all') return facility
+            else {
+                if (search.category === 'all') {
+                    if (facility.location === search.location) return facility
+                } else if (search.location === 'all') {
+                    if (facility.category === search.category) return facility
+                } else {
+                    if (facility.location === search.location && facility.category === search.category) return facility
                 }
             }
+        }
+
+        if (search.keyword.length > 0) {
             searchDetail.value.innerHTML = `Hasil pencarian untuk <strong class="text-gray-900">"${search.keyword}"</strong>`
         } else {
             searchDetail.value.innerHTML = `Hasil pencarian untuk <strong class="text-gray-900">"Semua"</strong>`

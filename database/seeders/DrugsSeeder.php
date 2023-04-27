@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Drug;
+use App\Models\Facility;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
@@ -17,16 +18,38 @@ class DrugsSeeder extends Seeder
         //
         $faker = Faker::create('id_ID');
 
-        for( $i = 1; $i <= 200; $i++ ) {
-            Drug::create(
-                [
-                    'name' => $faker->unique()->words($nb = 2, $asText = true),
-                    'facility_id' => rand(1, 100),
-                    'price' => rand(10000, 100000),
-                    'description' => $faker->paragraph(2),
-                    'unit_type' => $faker->randomElement(['Kapsul', 'Kaplet', 'Tablet', 'Botol', 'Suntikan', 'Biji']),
-                ]
-            );
+        $drugs = [
+            'Paracetamol',
+            'Amoxicillin',
+            'Ibuprofen',
+            'Lansoprazole',
+            'Metformin',
+            'Simvastatin',
+            'Cetirizine',
+            'Omeprazole',
+            'Aspirin',
+            'Diazepam',
+            'Atorvastatin',
+            'Glibenclamide',
+            'Metronidazole',
+            'Prednisone',
+            'Ciprofloxacin',
+        ];
+
+        $facilities = Facility::all();
+        
+        foreach($facilities as $facility) {
+            foreach($drugs as $drug) {
+                Drug::create(
+                    [
+                        'name' => $drug,
+                        'facility_id' => $facility->id,
+                        'price' => rand(5000, 100000),
+                        'description' => $faker->paragraph(8),
+                        'unit_type' => $faker->randomElement(['Kapsul', 'Kaplet', 'Tablet', 'Botol', 'Suntikan', 'Biji']),
+                    ]
+                );
+            }
         }
     }
 }

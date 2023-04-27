@@ -69,7 +69,7 @@ import Activity from '@/Pages/Profile/Partials/Activity.vue'
 const { notify } = useNotification()
 const page = usePage()
 const active = ref(page.props.auth.user.roles[0].name === 'user' ? 'Akun' : 'Dashboard')
-const isTabMinified = ref(true)
+const isTabMinified = ref(false)
 
 const tabs = [
     { id: 0, name: 'Akun', icon: 'fa-solid fa-user-gear', component: Account },

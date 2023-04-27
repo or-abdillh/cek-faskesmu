@@ -19,7 +19,7 @@ class UsersSeeder extends Seeder
         $faker = Faker::create();
 
         // Create provider user
-        for ($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 26; $i++) {
             $provider = User::create([
                 'name' => $faker->name,
                 'email' => $faker->unique()->safeEmail,

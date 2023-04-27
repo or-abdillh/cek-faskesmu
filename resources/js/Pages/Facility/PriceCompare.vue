@@ -17,31 +17,54 @@
                         yang terdekat dan relevan dengan item pilihan anda</p>
 
                     <!-- list  -->
-                    <section class="md:columns-2">
+                    <section class="">
                         <template v-for="(compare, index) in props?.compares" :key="list">
                             <!-- card -->
                             <section
-                                class="rounded-xl pl-4 pr-8 py-3 bg-gray-50 flex items-center gap-8 mb-4 border border-gray-200">
-                                <h1 class="text-lg text-gray-700 font-semibold">#{{ index }}</h1>
+                                class="rounded-xl px-8 py-6 bg-gray-50 flex items-start gap-8 mb-4 border border-gray-200">
                                 <!-- detail -->
                                 <section class="w-full">
-                                    <h1 class="text-gray-800 text-lg">Nama layanan</h1>
-                                    <section class="w-full text-sm text-gray-500 flex gap-4 mb-4">
+                                    <h1 class="text-gray-700 font-semibold text-xl mb-2">{{ compare.name }}</h1>
+                                    <section
+                                        class="w-full text-sm text-gray-500 flex gap-4 mb-4 border-b border-gray-200 pb-4">
                                         <!-- rate -->
                                         <span>
                                             <i class="fa-solid fa-star"></i>
-                                            3.5
+                                            {{ compare.rate }}
                                         </span>
                                         <!-- reviews -->
                                         <span>
                                             <i class="fa-solid fa-user-group"></i>
-                                            56
+                                            {{ compare.userHasRate }}
                                         </span>
+                                        <!-- Facility name -->
+                                        <span>
+                                            <i class="fa-solid fa-house-medical"></i>
+                                            {{ compare.facilityName }}
+                                        </span>
+                                        <!-- City -->
+                                        <span>
+                                            <i class="fa-solid fa-map"></i>
+                                            {{ compare.location }}
+                                        </span>
+                                    </section>
+
+                                    <!-- description -->
+                                    <section class="mb-8">
+                                        <h3 class="text-gray-600 text-sm mb-1">
+                                            Deskripsi
+                                        </h3>
+                                        <p class="text-gray-700 text-md mb-2">{{ compare.description }}</p>
                                         <!-- price -->
-                                        <span>Rp 127.000 /Jam</span>
+                                        <section class="text-gray-700 mb-4">
+                                            <small>Biaya</small>
+                                            <h2 class="text-xl font-semibold">
+                                                Rp {{ compare.price.toLocaleString() }} /{{ compare.unit_type }}
+                                            </h2>
+                                        </section>
                                     </section>
                                     <!-- CTA -->
-                                    <Link href="/"
+                                    <Link :href="compare.facilityUrl"
                                         class="block w-full px-4 py-2 bg-green-800 text-center rounded-xl text-sm text-gray-100">
                                     Lihat
                                     Faskes</Link>

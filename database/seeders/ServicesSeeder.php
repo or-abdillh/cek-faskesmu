@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Facility;
 use App\Models\Service;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -17,14 +18,37 @@ class ServicesSeeder extends Seeder
         //
         $faker = Faker::create('id_ID');
 
-        for( $i = 1; $i <= 200; $i++ ) {
-            Service::create([
-                'name' => $faker->unique()->words($nb = 2, $asText = true),
-                'facility_id' => rand(1, 100),
-                'price' => rand(10000, 100000),
-                'description' => $faker->paragraph(3),
-                'unit_type' => $faker->randomElement(['Jam', 'Sesi', 'Hari']),
-            ]);
+        $services = [
+            'Pemeriksaan Umum',
+            'Pemeriksaan Gigi',
+            'Tes Darah',
+            'USG',
+            'Fisioterapi',
+            'Operasi Bedah',
+            'Terapi Psikologi',
+            'Konsultasi Gizi',
+            'Rehabilitasi Medis',
+            'Pemeriksaan Mata',
+            'Konsultasi Kebidanan',
+            'Pemeriksaan Laboratorium',
+            'Radiologi',
+            'Konseling Kesehatan',
+            'Vaksinasi',
+        ];
+
+        $facilities = Facility::all();
+
+        foreach($facilities as $facility) {
+            foreach($services as $service) {
+
+                Service::create([
+                    'name' => $service,
+                    'facility_id' => $facility->id,
+                    'price' => rand(50000, 1000000),
+                    'description' => $faker->paragraph(6),
+                    'unit_type' => $faker->randomElement(['Jam', 'Sesi', 'Hari']),
+                ]);
+            }
         }
     }
 }

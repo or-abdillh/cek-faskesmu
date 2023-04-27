@@ -194,15 +194,18 @@ class FacilityController extends Controller
                     ->whereNot('facility_id', $facility->id);
             })
             ->get()
-            ->map(function($compare) {
+            ->map(function($compare) use ($facility){
                 return [
                     "id" => $compare->id,
                     "name" => $compare->name,
                     "price" => $compare->price,
                     "unit_type" => $compare->unit_type,
+                    "description" => $compare->description,
                     "userHasRate" => $compare->reviews->count(),
                     "rate" => number_format( $compare->reviews->avg('rate'), 1 ),
-                    "facilityUrl" => route('user.facility.detail', $compare->facility->slug)
+                    "facilityUrl" => route('user.facility.detail', $compare->facility->slug),
+                    "facilityName" => $compare->facility->name,
+                    "location" => $facility->location->city
                 ];
             });
 
@@ -227,8 +230,41 @@ class FacilityController extends Controller
         $facility = Facility::where('slug', $facilitySlug)->first();
 
         // Get the service 
-        $service = Drug::findOrFail($id);
+        $drug = Drug::findOrFail($id);
 
-        return Inertia::render('Facility/PriceCompare');
+        $compares = Drug::where('name', 'LIKE', '%' . $drug->name .'%')
+            ->whereHas('facility', function($query) use ($facility) {
+                $query->where('location_id', $facility->location_id)
+                    ->whereNot('facility_id', $facility->id);
+            })
+            ->get()
+            ->map(function($compare) use ($facility){
+                return [
+                    "id" => $compare->id,
+                    "name" => $compare->name,
+                    "price" => $compare->price,
+                    "unit_type" => $compare->unit_type,
+                    "description" => $compare->description,
+                    "userHasRate" => $compare->reviews->count(),
+                    "rate" => number_format( $compare->reviews->avg('rate'), 1 ),
+                    "facilityUrl" => route('user.facility.detail', $compare->facility->slug),
+                    "facilityName" => $compare->facility->name,
+                    "location" => $facility->location->city
+                ];
+            });
+
+        return Inertia::render('Facility/PriceCompare', [
+            "item" => [
+                "id" => $drug->id,
+                "name" => $drug->name,
+                "description" => $drug->description,
+                "price" => $drug->price,
+                "unit_type" => $drug->unit_type,
+                "userHasRate" => $drug->reviews->count(),
+                "rate" => number_format( $drug->reviews->avg('rate'), 1 ),
+                "isUserFavorite" => Favorite::where('user_id', auth()->user()->id)->where('favoritable_type', 'App\Models\Drug')->where('favoritable_id', $drug->id)->first(),
+            ],
+            "compares" => $compares
+        ]);
     }
 }
