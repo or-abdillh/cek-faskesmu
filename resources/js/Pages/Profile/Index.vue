@@ -36,7 +36,8 @@
                     <!-- view of tab -->
                     <section class="w-full border border-gray-200 rounded-lg bg-gray-50 p-8">
                         <!-- minified toggler -->
-                        <button @click="isTabMinified = !isTabMinified" class="duration-300 mb-4 text-gray-700 text-2xl"><i
+                        <button @click="isTabMinified = !isTabMinified"
+                            class="duration-300 mb-4 hidden md:block text-gray-700 text-2xl"><i
                                 :class="isTabMinified ? 'fa-bars' : 'fa-times'" class="fa-solid"></i></button>
                         <!-- provider dashboard -->
                         <ProviderDashboard v-if="active === 'Dashboard'" :dashboard="props.providerDashboard">

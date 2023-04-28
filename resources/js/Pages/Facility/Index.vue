@@ -4,14 +4,14 @@
         <section class="relative w-full bg-green-800 md:px-12 p-8 md:py-16 mt-28">
             <!-- searchbar -->
             <section
-                class="md:absolute md:-bottom-[30%] md:translate-x-[20%] w-full md:w-8/12 bg-gray-100 border border-gray-300 shadow rounded-xl overflow-hidden flex flex-col md:flex-row justify-around pr-6 py-3">
+                class="md:absolute md:-bottom-[30%] md:translate-x-[20%] w-full md:w-8/12 bg-gray-100 border border-gray-300 shadow rounded-xl overflow-hidden flex flex-col md:flex-row justify-around  px-2 md:pr-6 py-3">
                 <!-- keyword -->
                 <section class="pl-6 w-7/12 md:border-r border-gray-400 flex items-center">
                     <i class="fa-solid fa-search text-gray-700"></i>
                     <input v-model="search.keyword" class="w-full p-4 bg-gray-100 outline-none" type="search"
                         placeholder="Nama faskes">
                 </section>
-                <section class="flex md:w-5/12">
+                <section class="flex md:w-5/12 mb-4 md:mb-0">
                     <!-- category -->
                     <section class="flex flex-col pl-6 justify-center">
                         <label for="category" class="text-gray-700 text-xs">Kategori</label>
@@ -49,7 +49,7 @@
             <!-- wrapper -->
             <section class="w-full flex-col-reverse md:flex-row gap-6 md:gap-0 flex justify-between">
                 <!-- cards -->
-                <section class="md:w-7/12 columns-2">
+                <section class="md:w-7/12 md:columns-2">
                     <template v-for="facility in filteredFacilities" :key="facility.id">
                         <FacilityCard :facility="facility" class="mb-4 break-inside-avoid"></FacilityCard>
                     </template>

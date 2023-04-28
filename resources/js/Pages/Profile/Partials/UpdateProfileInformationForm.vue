@@ -47,7 +47,7 @@ const submit = () => {
         </header>
 
         <form @submit.prevent="submit" class="mt-6 space-y-6">
-            <section class="flex gap-4">
+            <section class="flex flex-col md:flex-row gap-4">
                 <div class="w-full">
                     <InputLabel for="name" value="Name" />
 

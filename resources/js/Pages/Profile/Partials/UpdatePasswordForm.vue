@@ -53,7 +53,7 @@ const updatePassword = () => {
         </header>
 
         <form @submit.prevent="updatePassword" class="mt-6 space-y-6">
-            <section class="flex gap-4">
+            <section class="flex flex-col md:flex-row gap-4">
                 <div class="w-full">
                     <InputLabel for="current_password" value="Current Password" />
 

@@ -3,7 +3,7 @@
         <section class="md:px-12 p-8 md:py-16 mt-20">
             <BreadCrumb class="text-gray-900"></BreadCrumb>
             <!-- main -->
-            <main class="mt-12 flex justify-between">
+            <main class="mt-12 flex flex-col justify-between">
                 <!-- main item -->
                 <section class="md:w-3/12">
                     <MainItemCard :data="props.item" :use-CTA="false" :use-review="false"></MainItemCard>

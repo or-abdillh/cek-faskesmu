@@ -6,9 +6,9 @@
 
 <template>
     <!-- hapus faskes -->
-    <section class="mb-4 flex justify-between items-center">
+    <section class="mb-12 md:mb-4 flex flex-col md:flex-row justify-between md:items-center">
         <section class="md:w-9/12">
-            <strong class="text-gray-700">Fasilitas Kesehatan</strong>
+            <h1 class="text-gray-700 font-semibold mb-2">Fasilitas Kesehatan</h1>
             <p class="text-gray-600 mb-2">
                 Dengan menekan tombol ini, semua data terkait dengan fasilitas akan dihapus, seperti seluruh layanan dan
                 obatan yang sudah ada dan
@@ -23,9 +23,9 @@
     </section>
 
     <!-- hapus faskes -->
-    <section class="mb-4 flex justify-between items-center">
+    <section class="mb-12 md:mb-4 flex-col md:flex-row justify-between md:items-center">
         <section class="md:w-9/12">
-            <strong class="text-gray-700">Layanan atau Obatan</strong>
+            <h1 class="text-gray-700 font-semibold mb-2">Layanan atau Obatan</h1>
             <p class="text-gray-600 mb-2">
                 Menghapus semua data layanan pada fasilitas beserta data yang terkait, seperti ulasan
                 dan rating para pengguna lainnya serta data para pengguna yang menyimpan beberapa layanan atau obatan pada

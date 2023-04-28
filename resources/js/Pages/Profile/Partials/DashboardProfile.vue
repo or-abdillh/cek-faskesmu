@@ -69,7 +69,7 @@
             </section>
 
             <!-- coordinats -->
-            <section class="flex gap-4 mb-12">
+            <section class="flex flex-col md:flex-row gap-4 mb-12">
                 <!-- longitude -->
                 <section>
                     <InputLabel for="longitude" value="Longitude Faskes"></InputLabel>

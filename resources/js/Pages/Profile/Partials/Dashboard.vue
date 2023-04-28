@@ -7,7 +7,7 @@
         </p>
 
         <!-- tabs -->
-        <section class="flex gap-3 mb-8">
+        <section class="flex flex-wrap md:flex-nowrap gap-3 mb-8">
             <template v-for="tab in tabs" :key="tab.id">
                 <button @click="active = tab.name"
                     :class="active === tab.name ? 'border-green-800 text-green-800' : 'text-gray-500 border-gray-100'"
