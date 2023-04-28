@@ -15,5 +15,11 @@
         "tailwindcss": "^3.2.1",
         "vite": "^4.0.0",
         "vue": "^3.2.41"
+    },
+    "dependencies": {
+        "@kyvg/vue3-notification": "^2.9.0",
+        "@splidejs/vue-splide": "^0.6.12",
+        "aos": "^2.3.4",
+        "datatables.net-dt": "^1.13.4"
     }
 }
