@@ -10,11 +10,15 @@
                 kaplet,
                 tablet, botol, suntikan, dan biji dengan harga yang terjangkau. </p>
             <!-- searching -->
-            <SearchBar></SearchBar>
+            <SearchBar>
+                <TextInput @keydown.enter="filtering" :use-outline="false" v-model="keyword"
+                    class="w-11/12 bg-gray-200 py-4 px-3 outline-none">
+                </TextInput>
+            </SearchBar>
 
             <!-- cards -->
             <section class="w-full md:columns-2">
-                <template v-for="drug in props?.drugs" :key="drug?.id">
+                <template v-for="drug in filteredItems" :key="drug?.id">
                     <DrugCard @card:open-review-page="openReviewPage" class="break-inside-avoid" type="App\Models\Drug"
                         :data="drug"></DrugCard>
                 </template>
@@ -29,15 +33,16 @@
 
     <!-- modal -->
     <Modal :show="showModal" max-width="md">
-        <UserReview :item="itemRef" type="App\Models\Drug" @modal:finish="pushNewReview"
-            @modal:close="showModal = false"></UserReview>
+        <UserReview :item="itemRef" type="App\Models\Drug" @modal:finish="pushNewReview" @modal:close="showModal = false">
+        </UserReview>
     </Modal>
 </template>
 
 <script setup>
 
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import DrugReviews from '@/Pages/Facility/partials/ServiceDrugReviews.vue'
+import TextInput from '@/Components/TextInput.vue'
 import SearchBar from '@/Pages/Facility/partials/SearchBar.vue'
 import DrugCard from '@/Components/card/ServiceDrugCard.vue'
 import Modal from '@/Components/Modal.vue'
@@ -47,6 +52,7 @@ const showReviewPage = ref(false)
 const reviewsRef = ref([])
 const itemRef = ref()
 const showModal = ref(false)
+const keyword = ref('')
 
 const openReviewPage = data => {
     const { reviews, item } = data
@@ -62,4 +68,19 @@ const props = defineProps({
     drugs: Array
 })
 
+const filteredItems = ref(props.drugs)
+
+const filtering = () => filteredItems.value = props.drugs.filter(drug => drug.name.toLowerCase().includes(keyword.value.toLowerCase()))
+
+onMounted(() => {
+    // Get param key and type
+    const queryParams = new URLSearchParams(window.location.search)
+    const key = queryParams.get('key')
+    const type = queryParams.get('type')
+
+    if (type.toLowerCase() === 'drug' && key.length > 0) {
+        keyword.value = key
+        filtering()
+    }
+})
 </script>

@@ -11,11 +11,15 @@
                 menyediakan
                 berbagai jenis layanan kesehatan untuk memenuhi kebutuhan Anda dan keluarga.</p>
             <!-- searching -->
-            <SearchBar></SearchBar>
+            <SearchBar>
+                <TextInput @keydown.enter="filtering" :use-outline="false" v-model="keyword"
+                    class="w-11/12 bg-gray-200 py-4 px-3 outline-none">
+                </TextInput>
+            </SearchBar>
 
             <!-- cards -->
             <section class="w-full md:columns-2">
-                <template v-for="service in props?.services" :key="service?.id">
+                <template v-for="service in filteredItems" :key="service?.id">
                     <ServiceCard @card:open-review-page="openReviewPage" type="App\Models\Service" :data="service"
                         class="break-inside-avoid"></ServiceCard>
                 </template>
@@ -37,7 +41,8 @@
 
 <script setup>
 
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import TextInput from '@/Components/TextInput.vue'
 import SearchBar from '@/Pages/Facility/partials/SearchBar.vue'
 import ServiceCard from '@/Components/card/ServiceDrugCard.vue'
 import ServiceReviews from '@/Pages/Facility/partials/ServiceDrugReviews.vue'
@@ -48,6 +53,7 @@ const showReviewPage = ref(false)
 const reviewsRef = ref([])
 const itemRef = ref()
 const showModal = ref(false)
+const keyword = ref('')
 
 const openReviewPage = data => {
     const { reviews, item } = data
@@ -61,6 +67,22 @@ const pushNewReview = review => reviewsRef.value.unshift(review)
 
 const props = defineProps({
     services: Array
+})
+
+const filteredItems = ref(props.services)
+
+const filtering = () => filteredItems.value = props.services.filter(service => service.name.toLowerCase().includes(keyword.value.toLowerCase()))
+
+onMounted(() => {
+    // Get param key and type
+    const queryParams = new URLSearchParams(window.location.search)
+    const key = queryParams.get('key')
+    const type = queryParams.get('type')
+
+    if (type.toLowerCase() === 'service' && key.length > 0) {
+        keyword.value = key
+        filtering()
+    }
 })
 
 </script>

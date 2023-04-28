@@ -6,6 +6,10 @@ defineProps({
         type: String,
         required: true,
     },
+    useOutline: {
+        type: Boolean,
+        default: true
+    }
 });
 
 defineEmits(['update:modelValue']);
@@ -22,6 +26,7 @@ defineExpose({ focus: () => input.value.focus() });
 </script>
 
 <template>
-    <input class="border border-gray-300 bg-gray-100 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm p-2"
-        :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" ref="input" />
+    <input :class="{ 'border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500': useOutline }"
+        class="bg-gray-100 rounded-md shadow-sm p-2" :value="modelValue"
+        @input="$emit('update:modelValue', $event.target.value)" ref="input" />
 </template>

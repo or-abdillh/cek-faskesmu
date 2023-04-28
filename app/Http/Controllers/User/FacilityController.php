@@ -203,7 +203,7 @@ class FacilityController extends Controller
                     "description" => $compare->description,
                     "userHasRate" => $compare->reviews->count(),
                     "rate" => number_format( $compare->reviews->avg('rate'), 1 ),
-                    "facilityUrl" => route('user.facility.detail', $compare->facility->slug),
+                    "facilityUrl" => route('user.facility.detail', ['slug' => $compare->facility->slug ]) . '?' . http_build_query([ 'key' => strtolower($compare->name), 'type' => 'service' ]),
                     "facilityName" => $compare->facility->name,
                     "location" => $facility->location->city
                 ];
@@ -247,7 +247,7 @@ class FacilityController extends Controller
                     "description" => $compare->description,
                     "userHasRate" => $compare->reviews->count(),
                     "rate" => number_format( $compare->reviews->avg('rate'), 1 ),
-                    "facilityUrl" => route('user.facility.detail', $compare->facility->slug),
+                    "facilityUrl" => route('user.facility.detail', ['slug' => $compare->facility->slug ]) . '?' . http_build_query([ 'key' => strtolower($compare->name), 'type' => 'drug' ]),
                     "facilityName" => $compare->facility->name,
                     "location" => $facility->location->city
                 ];

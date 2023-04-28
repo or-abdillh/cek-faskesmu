@@ -82,7 +82,7 @@
 
 <script setup>
 
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import Modal from '@/Components/Modal.vue'
 import UserReview from '@/Components/form/UserReview.vue'
 import BaseLayout from '@/Layouts/BaseLayout.vue'
@@ -110,5 +110,19 @@ const tabs = [
     { id: 3, name: 'Ulasan' },
     { id: 2, name: 'Lokasi' },
 ]
+
+onMounted(() => {
+    // Get param key and type
+    const queryParams = new URLSearchParams(window.location.search)
+    const type = queryParams.get('type')
+
+    if (type.length > 0) {
+        switch (type.toLowerCase()) {
+            case 'service': tabActive.value = 'Layanan'
+                break
+            case 'drug': tabActive.value = 'Obatan'
+        }
+    }
+})
 
 </script>
