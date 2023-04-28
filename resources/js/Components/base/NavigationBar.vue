@@ -51,7 +51,6 @@ const showSideBar = ref(false)
 const links = [
     { path: '/', title: 'Beranda' },
     { path: '/facility', title: 'Fasilitas' },
-    { path: '/', title: 'Tentang Kami' },
 ]
 
 onMounted(() => {

@@ -6,7 +6,6 @@
                     <th scope="col" class="md:px-6 md:py-3">No</th>
                     <th scope="col" class="md:px-6 md:py-3">Nama</th>
                     <th scope="col" class="md:px-6 md:py-3">Biaya Layanan</th>
-                    <th scope="col" class="hidden md:inline md:px-6 md:py-3">Deskripsi</th>
                     <th scope="col" class="md:px-6 md:py-3">Rating</th>
                     <th scope="col" class="md:px-6 md:py-3">Ulasan</th>
                     <th scope="col" class="md:px-6 md:py-3">Dibuat Pada</th>
@@ -23,7 +22,6 @@
                         <td class="md:px-6 md:py-4 whitespace-nowrap">Rp{{ item.price.toLocaleString() }} /{{ item.unit_type
                         }}
                         </td>
-                        <td class="md:px-6 md:py-4 hidden md:inline">{{ item.description }}</td>
                         <td class="md:px-6 md:py-4"><i class="fa-solid fa-star text-yellow-500"></i> {{ item.rate }}</td>
                         <td class="md:px-6 md:py-4"><i class="fa-solid fa-user-group text-gray-400"></i> {{ item.userHasRate
                         }}
