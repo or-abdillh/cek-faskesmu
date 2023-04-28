@@ -114,7 +114,7 @@ const tabs = [
 onMounted(() => {
     // Get param key and type
     const queryParams = new URLSearchParams(window.location.search)
-    const type = queryParams.get('type')
+    const type = queryParams.get('type') || ''
 
     if (type.length > 0) {
         switch (type.toLowerCase()) {

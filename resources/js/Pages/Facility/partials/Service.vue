@@ -76,8 +76,8 @@ const filtering = () => filteredItems.value = props.services.filter(service => s
 onMounted(() => {
     // Get param key and type
     const queryParams = new URLSearchParams(window.location.search)
-    const key = queryParams.get('key')
-    const type = queryParams.get('type')
+    const key = queryParams.get('key') || ''
+    const type = queryParams.get('type') || ''
 
     if (type.toLowerCase() === 'service' && key.length > 0) {
         keyword.value = key
