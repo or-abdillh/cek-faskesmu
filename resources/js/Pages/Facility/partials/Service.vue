@@ -12,9 +12,14 @@
                 berbagai jenis layanan kesehatan untuk memenuhi kebutuhan Anda dan keluarga.</p>
             <!-- searching -->
             <SearchBar>
-                <TextInput @keydown.enter="filtering" :use-outline="false" v-model="keyword"
+                <TextInput @keydown.enter="filtering" :use-outline="false" v-model="keyword" list="services"
                     class="w-11/12 bg-gray-200 py-4 px-3 outline-none">
                 </TextInput>
+                <datalist id="services">
+                    <template v-for="service in props.services" :key="service.id">
+                        <option :value="service.name"></option>
+                    </template>
+                </datalist>
             </SearchBar>
 
             <!-- cards -->

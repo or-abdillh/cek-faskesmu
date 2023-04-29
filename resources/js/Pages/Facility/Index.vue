@@ -9,7 +9,13 @@
                 <section class="pl-6 w-7/12 md:border-r border-gray-400 flex items-center">
                     <i class="fa-solid fa-search text-gray-700"></i>
                     <input v-model="search.keyword" class="w-full p-4 bg-gray-100 outline-none" type="search"
-                        placeholder="Nama faskes">
+                        placeholder="Nama faskes" list="facilities">
+                    <!-- datalist -->
+                    <datalist id="facilities">
+                        <template v-for="facility in props.facilities" :key="facility.id">
+                            <option :value="facility.name"></option>
+                        </template>
+                    </datalist>
                 </section>
                 <section class="flex md:w-5/12 mb-4 md:mb-0">
                     <!-- category -->
