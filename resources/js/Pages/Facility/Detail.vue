@@ -68,6 +68,12 @@
                             <i class="fa-solid fa-user"></i>
                             {{ props.provider?.name }}
                         </div>
+                        <!-- website -->
+                        <Link :href="props.facility?.website " v-if="props.facility?.website"
+                            class="bg-gray-200 rounded p-3 text-gray-700 flex justify-between items-center">
+                            <i class="fa-solid fa-link"></i>
+                            Website Faskes
+                        </Link>
                     </section>
                 </section>
             </section>
@@ -83,6 +89,7 @@
 <script setup>
 
 import { ref, onMounted } from 'vue'
+import { Link } from '@inertiajs/vue3'
 import Modal from '@/Components/Modal.vue'
 import UserReview from '@/Components/form/UserReview.vue'
 import BaseLayout from '@/Layouts/BaseLayout.vue'

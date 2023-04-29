@@ -11,9 +11,14 @@
                 tablet, botol, suntikan, dan biji dengan harga yang terjangkau. </p>
             <!-- searching -->
             <SearchBar>
-                <TextInput @keydown.enter="filtering" :use-outline="false" v-model="keyword"
+                <TextInput @keydown.enter="filtering" :use-outline="false" v-model="keyword" list="drugs"
                     class="w-11/12 bg-gray-200 py-4 px-3 outline-none">
                 </TextInput>
+                <datalist id="drugs">
+                    <template v-for="drug in props.drugs" :key="drug.id">
+                        <option :value="drug.name"></option>
+                    </template>
+                </datalist>
             </SearchBar>
 
             <!-- cards -->

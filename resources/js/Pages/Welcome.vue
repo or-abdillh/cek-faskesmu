@@ -97,7 +97,7 @@
                         </section>
                     </template>
                 </section>
-                <Link data-aos="zoom-in-up" class="text-xl text-gray-100" href="/">
+                <Link data-aos="zoom-in-up" class="text-xl text-gray-100" href="/facility">
                 <i class="fa-solid fa-arrow-right"></i>
                 Temukan lebih banyak faskes
                 </Link>
