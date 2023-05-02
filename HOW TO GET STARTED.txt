@@ -5,6 +5,7 @@ Jalankan perintah npm install untuk menginstal dependensi JavaScript dan perinta
 
 2. Persiapan Environment
 Lakukan rename pada file .env.example menjadi .env atau bisa menggunakan perintah cp .env.example .env
+Setelah melakukan rename file, jalankan perintah php artisan key:generate 
 
 3. Migrasi dan Pengisian Data Awal
 Pastikan koneksi MySQL sudah dinyalakan dan setelah berhasil menginstal dependensi, jalankan perintah php artisan migrate --seed untuk menjalankan migrasi database dan mengisi data awal ke dalam tabel yang dibutuhkan.
