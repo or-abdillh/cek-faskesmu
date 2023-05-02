@@ -21,7 +21,7 @@ class ReviewsSeeder extends Seeder
         //
         $faker = Faker::create('id_ID');
 
-        $users = User::role('user')->get();
+        $users = User::role('user')->take(10)->get();
         $facilities = Facility::all();
         $services = Service::all();
         $drugs = Drug::all();

@@ -1,0 +1,12 @@
+Untuk menjalankan aplikasi ini, terdapat beberapa tahap yang perlu dilakukan. Berikut adalah penjelasan singkat mengenai setiap tahap :
+
+1. Instalasi Depedensi
+Jalankan perintah npm install untuk menginstal dependensi JavaScript dan perintah composer install untuk menginstal dependensi PHP.
+
+2. Migrasi dan Pengisian Data Awal
+Pastikan koneksi MySQL sudah dinyalakan dan setelah berhasil menginstal dependensi, jalankan perintah php artisan migrate --seed untuk menjalankan migrasi database dan mengisi data awal ke dalam tabel yang dibutuhkan.
+
+3. Menjalankan Aplikasi
+Terakhir, untuk menjalankan server lokal dan mengakses aplikasi melalui browser, jalankan perintah php artisan serve. Perintah php artisan serve harus dijalankan bersamaan dengan perintah npm run dev. Pastikan kedua perintah ini tetap berjalan selama Anda menggunakan aplikasi.
+
+Dengan menjalankan tahap-tahap di atas, Anda akan dapat menjalankan aplikasi dan mengaksesnya melalui server lokal. Pastikan untuk mengikuti langkah-langkah dengan benar dan memeriksa pesan atau kesalahan yang muncul selama proses.
