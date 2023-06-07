@@ -38,7 +38,7 @@ Tipe pengguna ini adalah pengguna biasa atau pengunjung website yang telah menda
 ### Provider
 Tipe pengguna ini adalah pengguna yang memiliki akses sebagai administrator sebuah faskes, memiliki akses seperti pengguna biasa namun memiliki akses dashboard khusus untuk melakukan CRUD pada item layanan kesehatan, obatan, maupun data fasilitas
 
-## Requirments
+## Requirements
 Sistem ini menggunakan framework Laravel versi 10 dan Vue JS versi 3 sebagai framework utama dibantu dengan Inertia JS sebagai penghubung aplikasi client dengan server
 
 ## Instalasi
